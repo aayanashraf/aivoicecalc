@@ -1,0 +1,11 @@
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#10213A;line-height:1.65;background:linear-gradient(180deg,#DCE9F6 0,#F4F7FB 420px) no-repeat,#F4F7FB}
+a{color:#0B7A75}:focus-visible{outline:3px solid #2B6CB0;outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header{padding:24px 0}.logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;color:#10213A;text-decoration:none}
+.logo b{width:34px;height:34px;border-radius:9px;background:#0B7A75;color:#fff;display:grid;place-items:center;font-size:.85rem}
+h1{font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.15;margin:12px 0 8px;letter-spacing:-.02em}
+h2{font-size:1.35rem;margin:32px 0 8px}p,li{color:#3C4B66}.meta{font-size:.88rem;color:#51607A}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #D5DEEA;border-radius:12px;overflow:hidden;font-size:.92rem;margin:12px 0}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #E4EBF3;vertical-align:top}th{background:#E8F7F5}
+.btn{display:inline-block;background:#0B7A75;color:#fff;font-weight:700;padding:11px 18px;border-radius:10px;text-decoration:none}.btn:hover{background:#09665F}
+footer{margin-top:48px;padding:24px 0 40px;border-top:1px solid #D5DEEA;font-size:.85rem;color:#51607A}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aivoicecalc.com/sitemap.xml

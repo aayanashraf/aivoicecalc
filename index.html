@@ -6,6 +6,17 @@
   <title>AI Voice Agent Cost & ROI Calculator | Ultra Agency Engine</title>
   <meta name="description" content="Ultimate AI Voice Agent infrastructure, stack comparison, latency estimator, and agency pricing engine." />
   
+  <!-- Open Graph / Social Sharing Meta Tags (WhatsApp, LinkedIn, Twitter Previews) -->
+  <meta property="og:title" content="AI Voice Agent Cost & ROI Calculator" />
+  <meta property="og:description" content="Calculate infrastructure costs, custom vendor stacks, agency profit markup, and client ROI instantly." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI Voice Agent Cost & ROI Calculator" />
+  <meta name="twitter:description" content="Calculate infrastructure costs, vendor stacks, and client ROI instantly." />
+
+  <!-- Vercel Analytics Hook (Enable inside Vercel Dashboard for traffic tracking) -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
   <style>
     :root {
       --bg-dark: #0f172a;
@@ -271,7 +282,7 @@
   </div>
 
   <footer>
-    <p>Last verified provider rate updates: October 2026 | <a href="#">Official Rates</a> | <a href="#">Terms & Privacy</a></p>
+    <p>Last verified provider rate updates: October 2026 | <a href="mailto:support@aivoicecalc.vercel.app">Report Outdated Rates</a> | <a href="#">Terms & Privacy</a></p>
   </footer>
 </div>
 
@@ -287,7 +298,6 @@
   let currentRate = 1;
 
   function calculate() {
-    // Currency Setup
     const currSelect = document.getElementById('currency');
     currentSymbol = currSelect.options[currSelect.selectedIndex].getAttribute('data-symbol');
     currentRate = parseFloat(currSelect.options[currSelect.selectedIndex].getAttribute('data-rate'));
@@ -297,23 +307,19 @@
     const setupFee = parseFloat(document.getElementById('setupFee').value) * currentRate;
     const markupPercent = parseFloat(document.getElementById('markup').value);
 
-    // Direction rate
     const isOutbound = document.querySelector('input[name="direction"]:checked').value === 'outbound';
     const telephonyRate = (isOutbound ? 0.014 : 0.0085) * currentRate;
 
-    // Vendor Rates
     const platformRate = parseFloat(document.getElementById('platformVendor').value) * currentRate;
     const llmRate = parseFloat(document.getElementById('llmVendor').value) * currentRate;
     const ttsRate = parseFloat(document.getElementById('ttsVendor').value) * currentRate;
     const sttRate = 0.008 * currentRate;
 
-    // DOM text updates
     document.getElementById('minVal').innerText = minutes.toLocaleString();
     document.getElementById('didVal').innerText = dids;
     document.getElementById('setupFeeVal').innerText = currentSymbol + Math.round(setupFee).toLocaleString();
     document.getElementById('markupVal').innerText = markupPercent + '%';
 
-    // Tier Discounts
     let tierDiscount = 0;
     if (minutes >= 50000) { tierDiscount = 0.20; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 20% Off Platform"; }
     else if (minutes >= 20000) { tierDiscount = 0.10; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 10% Off Platform"; }
@@ -332,7 +338,6 @@
     const humanCost = (minutes / 50) * (18 * currentRate);
     const netSavings = Math.max(0, humanCost - clientBilledMonthly);
 
-    // Update Results UI
     document.getElementById('clientTotal').innerText = currentSymbol + Math.round(clientBilledMonthly).toLocaleString();
     document.getElementById('firstMonthInvoice').innerText = `First Month Invoice (Inc. Setup): ${currentSymbol}${Math.round(firstMonthTotal).toLocaleString()}`;
     document.getElementById('cogsCost').innerText = currentSymbol + Math.round(totalCOGS).toLocaleString();
@@ -340,7 +345,6 @@
     document.getElementById('humanCost').innerText = currentSymbol + Math.round(humanCost).toLocaleString();
     document.getElementById('netSavings').innerText = currentSymbol + Math.round(netSavings).toLocaleString();
 
-    // Stack Bar Widths
     const grandTotal = clientBilledMonthly || 1;
     document.getElementById('segPlatform').style.width = (((effPlatformRate * minutes) / grandTotal) * 100) + '%';
     document.getElementById('segLLM').style.width = (((llmRate * minutes) / grandTotal) * 100) + '%';
@@ -349,11 +353,10 @@
     document.getElementById('segTelephony').style.width = ((((telephonyRate * minutes) + monthlyDidCost) / grandTotal) * 100) + '%';
     document.getElementById('segMarkup').style.width = ((profitMargin / grandTotal) * 100) + '%';
 
-    // Latency Meter Calculation
     const platLat = parseInt(document.getElementById('platformVendor').selectedOptions[0].getAttribute('data-latency') || 150);
     const llmLat = parseInt(document.getElementById('llmVendor').selectedOptions[0].getAttribute('data-latency') || 300);
     const ttsLat = parseInt(document.getElementById('ttsVendor').selectedOptions[0].getAttribute('data-latency') || 200);
-    const totalLatency = platLat + llmLat + ttsLat + 100; // 100ms network buffer
+    const totalLatency = platLat + llmLat + ttsLat + 100;
 
     document.getElementById('latencyVal').innerText = totalLatency + ' ms';
     const latBar = document.getElementById('latencyBar');
@@ -377,16 +380,14 @@
     }
   }
 
-  // AI Optimizer
   function autoOptimizeStack() {
     document.getElementById('platformVendor').value = "0.05";
-    document.getElementById('llmVendor').value = "0.01"; // Groq Llama 3
-    document.getElementById('ttsVendor').value = "0.01"; // Deepgram Aura
+    document.getElementById('llmVendor').value = "0.01";
+    document.getElementById('ttsVendor').value = "0.01";
     calculate();
     alert('⚡ Auto-Optimized! Selected highest-speed, lowest-cost stack (Groq + Deepgram Aura).');
   }
 
-  // Presets
   function applyPreset(type) {
     if(type === 'support') {
       document.getElementById('minutes').value = 3000;
@@ -404,7 +405,6 @@
     calculate();
   }
 
-  // Modal Handlers
   function openModal(type) {
     const modal = document.getElementById('appModal');
     const body = document.getElementById('modalBody');

@@ -1,329 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Voice Agent Cost Calculator: Vapi vs Retell vs Bland vs Synthflow</title>
-<meta name="description" content="Estimate the monthly cost of an AI voice agent. Compare Vapi, Retell AI, Bland AI and Synthflow with LLM, voice, speech-to-text and telephony fees broken out.">
-<link rel="canonical" href="https://aivoicecalc.vercel.app/">
-<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#0B7A75"><link rel="apple-touch-icon" href="/icon-192.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B7A75'/%3E%3Ctext x='16' y='22' font-size='15' font-family='Arial' font-weight='700' fill='white' text-anchor='middle'%3EAV%3C/text%3E%3C/svg%3E">
-<meta property="og:title" content="AI Voice Agent Cost Calculator">
-<meta property="og:description" content="Compare Vapi, Retell, Bland and Synthflow per-minute costs in seconds.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://aivoicecalc.vercel.app/">
-<meta name="twitter:card" content="summary">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"AI Voice Calc","url":"https://aivoicecalc.vercel.app/","applicationCategory":"BusinessApplication","operatingSystem":"Any","description":"Free calculator comparing AI voice agent and telephony costs across Vapi, Retell AI, Bland AI and Synthflow.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
-</script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"Vapi vs Retell cost: which is cheaper?","acceptedAnswer":{"@type":"Answer","text":"Both charge a per-minute platform fee and pass through LLM, voice, speech-to-text and telephony costs. Vapi's platform fee is usually lower, but your model and voice choices change the total more than the platform does."}},
-{"@type":"Question","name":"What are ElevenLabs per minute rates for voice agents?","acceptedAnswer":{"@type":"Answer","text":"ElevenLabs is typically one of the pricier voice engines. Deepgram and Cartesia are often much cheaper, with different voice quality."}},
-{"@type":"Question","name":"How much does Twilio add per minute?","acceptedAnswer":{"@type":"Answer","text":"US outbound voice on Twilio is about $0.014 per minute plus number rental. Some platforms bundle telephony into their rate."}},
-{"@type":"Question","name":"Are these prices exact?","acceptedAnswer":{"@type":"Answer","text":"No. They are planning estimates. Providers change pricing often, so confirm current rates on each provider's pricing page."}}
-]}
-</script>
-<style>
-:root{--bg:#F4F7FB;--ink:#10213A;--muted:#51607A;--card:#fff;--line:#D5DEEA;--accent:#0B7A75;--accent-soft:#E8F7F5;--warn:#9A5B00}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:var(--ink);line-height:1.55;background:linear-gradient(180deg,#DCE9F6 0,var(--bg) 460px) no-repeat,var(--bg)}
-a{color:var(--accent)}
-:focus-visible{outline:3px solid #2B6CB0;outline-offset:2px}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:24px 0 8px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;color:var(--ink);text-decoration:none}
-.logo b{width:34px;height:34px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:.85rem}
-.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
-.seg button{border:0;background:none;padding:8px 14px;font:inherit;font-size:.9rem;color:var(--muted);cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--accent);color:#fff}
-.tools{display:flex;gap:10px;flex-wrap:wrap}
-h1{font-size:clamp(1.9rem,4.5vw,3rem);line-height:1.12;margin:28px 0 12px;letter-spacing:-.02em;max-width:18ch}
-.lead{color:var(--muted);font-size:1.1rem;max-width:60ch;margin:0 0 8px}
-.updated{font-size:.85rem;color:var(--muted);margin:0 0 24px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(16,33,58,.05)}
-.inputs{display:grid;gap:24px;grid-template-columns:1fr 1fr}
-.row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:.92rem}
-.row output{font-weight:800}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-label{display:block;font-size:.88rem;color:var(--muted);margin-bottom:6px}
-.field{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
-input[type=range]{width:100%;accent-color:var(--accent)}
-.note{font-size:.82rem;color:var(--muted);margin:10px 0 0}
-h2{font-size:1.5rem;margin:0;letter-spacing:-.01em}
-.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin:40px 0 16px}
-.btn{display:inline-block;text-align:center;font:inherit;font-weight:700;font-size:.92rem;padding:10px 16px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#fff;text-decoration:none;cursor:pointer}
-.btn:hover{background:#09665F}
-.btn.ghost{background:#fff;color:var(--accent)}
-.btn.ghost:hover{background:var(--accent-soft)}
-.preset-btn{background:#fff;border:1px solid var(--line);padding:8px 12px;border-radius:8px;font-size:.82rem;font-weight:600;color:var(--ink);cursor:pointer;transition:all 0.2s}
-.preset-btn:hover{border-color:var(--accent);background:var(--accent-soft)}
-#cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
-.card.best{border:2px solid var(--accent);background:linear-gradient(#fff,var(--accent-soft))}
-.card h3{margin:0;font-size:1.1rem}
-.tag{font-size:.75rem;font-weight:700;color:#0A5C57;background:#CDEFEA;border-radius:99px;padding:3px 10px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
-.total{font-size:2rem;font-weight:800;margin:0;letter-spacing:-.02em}
-.total small{font-size:.85rem;font-weight:500;color:var(--muted)}
-.sub{font-size:.88rem;color:var(--muted);margin:2px 0 14px}
-dl{margin:0 0 14px;flex:1;font-size:.88rem}
-dl div{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line)}
-dt{color:var(--muted)}dd{margin:0;font-variant-numeric:tabular-nums}
-.bar{height:6px;border-radius:99px;background:#E4EBF3;overflow:hidden;margin-bottom:14px}
-.bar i{display:block;height:100%;background:#7C93B3;border-radius:99px}
-.best .bar i{background:var(--accent)}
-.badge{font-size:.78rem;color:var(--warn);margin:-6px 0 12px}
-#stats{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:20px}
-#stats p{margin:0;color:var(--muted);font-size:.88rem}
-#stats strong{display:block;font-size:1.8rem;color:var(--ink);letter-spacing:-.02em}
-.disc{font-size:.85rem;color:var(--muted);margin-top:14px;max-width:80ch}
-.guide{max-width:72ch;margin-top:48px}
-.guide p{color:var(--muted)}
-details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
-summary{cursor:pointer;font-weight:700}
-details p{margin:10px 0 0;color:var(--muted)}
-footer{margin-top:56px;padding:24px 0 40px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
-footer p{margin:4px 0}
-@media print{.tools, .inputs, .head, footer, .guide, .disc, .note, #stats {display:none !important;} body {background:#fff;} .panel, .card {border:1px solid #000; box-shadow:none;}}
-@media (max-width:720px){.inputs{grid-template-columns:1fr}.three{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Voice Agent Cost & ROI Calculator | Agency Pricing Engine</title>
+  <meta name="description" content="Calculate complete AI Voice Agent infrastructure costs, vendor stack fees, agency profit markup, and client ROI in real-time." />
+  
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --success: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    header { text-align: center; margin-bottom: 30px; }
+    header h1 { font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    header p { color: var(--text-muted); font-size: 1rem; }
+
+    /* Presets Bar */
+    .presets-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 25px; }
+    .preset-btn { background: #334155; border: 1px solid var(--border); color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+    .preset-btn:hover { background: var(--accent); border-color: var(--accent); }
+
+    /* Main Grid */
+    .calculator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .calculator-grid { grid-template-columns: 1fr; } }
+
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .card h2 { font-size: 1.25rem; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; color: #60a5fa; }
+
+    .input-group { margin-bottom: 18px; }
+    .input-group label { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .input-group span.val { color: #38bdf8; font-weight: 600; }
+    
+    input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+    select, input[type="number"] { width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.9rem; }
+
+    /* Results Card */
+    .results-card { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #3b82f6; }
+    
+    .big-stat { text-align: center; margin-bottom: 20px; background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid var(--border); }
+    .big-stat .label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .big-stat .amount { font-size: 2.2rem; font-weight: 800; color: #34d399; margin: 4px 0; }
+    .big-stat .subtext { font-size: 0.8rem; color: #a7f3d0; }
+
+    .breakdown-list { margin-top: 15px; font-size: 0.88rem; }
+    .breakdown-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+    .breakdown-item:last-child { border-bottom: none; }
+
+    /* Visual Cost Stack Bar */
+    .stack-container { margin: 20px 0; }
+    .stack-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .stack-bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: #0f172a; }
+    .stack-seg { height: 100%; transition: width 0.3s ease; }
+    .seg-platform { background: #6366f1; }
+    .seg-llm { background: #3b82f6; }
+    .seg-voice { background: #ec4899; }
+    .seg-stt { background: #eab308; }
+    .seg-telephony { background: #10b981; }
+    .seg-markup { background: #f97316; }
+
+    .stack-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 0.75rem; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* Actions */
+    .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+    .btn { padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; transition: 0.2s; font-size: 0.9rem; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: #334155; color: #fff; }
+    .btn-secondary:hover { background: #475569; }
+
+    /* Lead Modal */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    .modal.active { display: flex; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--border); width: 100%; max-width: 450px; border-radius: 12px; padding: 24px; position: relative; }
+    .close-modal { position: absolute; right: 15px; top: 15px; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; }
+
+    /* Footer */
+    footer { margin-top: 40px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px; color: var(--text-muted); font-size: 0.8rem; }
+    footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
+  </style>
 </head>
 <body>
-<div class="wrap">
-<header>
-  <a href="/" class="logo"><b>AV</b> aivoicecalc</a>
-  <div class="tools">
-    <div class="seg" role="group" aria-label="Billing period">
-      <button data-per="mo" aria-pressed="true">Monthly</button>
-      <button data-per="yr" aria-pressed="false">Yearly</button>
-    </div>
-    <div class="seg" role="group" aria-label="Currency">
-      <button data-cur="USD" aria-pressed="true">$ USD</button>
-      <button data-cur="EUR" aria-pressed="false">€ EUR</button>
-      <button data-cur="GBP" aria-pressed="false">£ GBP</button>
-      <button data-cur="PKR" aria-pressed="false">Rs PKR</button>
-      <button data-cur="INR" aria-pressed="false">₹ INR</button>
-    </div>
-  </div>
-</header>
 
-<main>
-  <h1>What will your AI voice agent cost per month?</h1>
-  <p class="lead">Set your call volume, pick a language model and a voice engine, and compare Vapi, Retell, Bland and Synthflow fee by fee.</p>
-  <p class="updated">Prices last reviewed: October 2026. Check each provider's pricing page before you quote a client.</p>
+<div class="container">
+  <header>
+    <h1>AI Voice Agent Cost Engine</h1>
+    <p>Estimate infrastructure costs, custom vendor stacks, agency markup, and client ROI</p>
+  </header>
 
-  <!-- PRESETS SECTION -->
-  <div style="margin-bottom:16px;">
-    <label style="font-weight:700; margin-bottom:8px;">⚡ Quick Industry Presets:</label>
-    <div class="three">
-      <button type="button" class="preset-btn" onclick="applyPreset(3000, 90)">📅 Appointment Booking (3k calls, 90s)</button>
-      <button type="button" class="preset-btn" onclick="applyPreset(5000, 180)">🎧 Support Hotline (5k calls, 3m)</button>
-      <button type="button" class="preset-btn" onclick="applyPreset(10000, 240)">🚀 Outbound Sales SDR (10k calls, 4m)</button>
-    </div>
+  <!-- Presets -->
+  <div class="presets-bar">
+    <button class="preset-btn" onclick="applyPreset('support')">🎧 Support Hotline (Low Vol)</button>
+    <button class="preset-btn" onclick="applyPreset('sales')">📞 Outbound Sales (Med Vol)</button>
+    <button class="preset-btn" onclick="applyPreset('enterprise')">🏢 Enterprise Center (High Vol)</button>
   </div>
 
-  <section class="panel inputs" aria-label="Your usage">
-    <div>
-      <div class="row"><label for="minutes" style="margin:0">Monthly call minutes</label><output id="minOut"></output></div>
-      <input type="range" id="minutes" min="100" max="200000" step="100" value="10000">
-      <div class="two" style="margin-top:18px">
-        <div><label for="duration">Average call length (seconds)</label><input class="field" type="number" id="duration" min="10" max="3600" value="180"></div>
-        <div><label for="calls">Calls per month</label><input class="field" type="number" id="calls" min="1" value="3333"></div>
-      </div>
-      
-      <!-- AGENCY MARKUP SLIDER -->
-      <div style="margin-top:18px; padding-top:14px; border-top:1px dashed var(--line)">
-        <div class="row"><label for="markup" style="margin:0; font-weight:700; color:var(--ink)">💼 Agency Client Markup (%)</label><output id="markupOut">0%</output></div>
-        <input type="range" id="markup" min="0" max="100" step="5" value="0">
-        <p class="note">Add your agency profit margin to generate end-client quotes.</p>
-      </div>
-    </div>
+  <div class="calculator-grid">
     
-    <div class="two" style="align-content:start">
-      <div><label for="llm">Language model</label>
-        <select id="llm" class="field"><option value="mini">GPT-4o Mini</option><option value="4o">GPT-4o</option><option value="claude">Claude Sonnet</option><option value="llama">Llama 3 (open model)</option></select></div>
-      <div><label for="voice">Voice engine</label>
-        <select id="voice" class="field"><option value="eleven">ElevenLabs</option><option value="deepgram">Deepgram</option><option value="cartesia">Cartesia</option><option value="playht">PlayHT</option></select></div>
+    <!-- Left Column: Inputs -->
+    <div class="card">
+      <h2>1. Usage & Infrastructure Volume</h2>
       
-      <div><label for="stt">Speech-To-Text (STT)</label>
-        <select id="stt" class="field"><option value="deepgram">Deepgram Nova-3</option><option value="assembly">AssemblyAI</option><option value="whisper">OpenAI Whisper</option></select></div>
-      <div><label for="telephony">Telephony Provider</label>
-        <select id="telephony" class="field"><option value="twilio">Twilio ($0.014)</option><option value="telnyx">Telnyx ($0.005)</option><option value="plivo">Plivo ($0.0055)</option></select></div>
+      <div class="input-group">
+        <label>Monthly Call Minutes: <span class="val" id="minVal">5,000</span></label>
+        <input type="range" id="minutes" min="500" max="100000" step="500" value="5000" oninput="calculate()">
+      </div>
 
-      <p class="note" style="grid-column:1/-1">Model and voice rates are typical estimates. Bland charges one all-in rate, so choices do not change its price.</p>
+      <div class="input-group">
+        <label>Avg Call Duration (Minutes): <span class="val" id="durVal">3.0</span></label>
+        <input type="range" id="duration" min="0.5" max="10" step="0.5" value="3.0" oninput="calculate()">
+      </div>
+
+      <div class="input-group">
+        <label>Dedicated Phone Numbers (DIDs): <span class="val" id="didVal">5</span></label>
+        <input type="range" id="didCount" min="1" max="50" step="1" value="5" oninput="calculate()">
+      </div>
+
+      <h2>2. Tech Stack Granularity</h2>
+
+      <div class="input-group">
+        <label>Voice Platform Engine</label>
+        <select id="platformVendor" onchange="calculate()">
+          <option value="0.05">Vapi / Retell Standard ($0.05 / min)</option>
+          <option value="0.09">Bland AI Enterprise ($0.09 / min)</option>
+          <option value="0.00">Custom OpenSource Framework ($0.00 / min)</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>LLM Brain Model</label>
+        <select id="llmVendor" onchange="calculate()">
+          <option value="0.02">OpenAI GPT-4o-mini / Claude Haiku (~$0.02 / min)</option>
+          <option value="0.06" selected>OpenAI GPT-4o / Claude 3.5 Sonnet (~$0.06 / min)</option>
+          <option value="0.01">DeepSeek V3 / Groq Llama 3 (~$0.01 / min)</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Voice Synthesis (TTS)</label>
+        <select id="ttsVendor" onchange="calculate()">
+          <option value="0.04" selected>ElevenLabs Turbo v2 ($0.04 / min)</option>
+          <option value="0.02">Cartesia Sonic ($0.02 / min)</option>
+          <option value="0.01">Deepgram Aura ($0.01 / min)</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Telephony Carrier (SIP)</label>
+        <select id="telephonyVendor" onchange="calculate()">
+          <option value="0.015" selected>Twilio Programmable Voice ($0.015 / min)</option>
+          <option value="0.007">Telnyx Elastic SIP ($0.007 / min)</option>
+        </select>
+      </div>
+
+      <h2>3. Business & Agency Economics</h2>
+
+      <div class="input-group">
+        <label>Agency Profit Markup (%): <span class="val" id="markupVal">40%</span></label>
+        <input type="range" id="markup" min="0" max="150" step="5" value="40" oninput="calculate()">
+      </div>
+
+      <div class="input-group">
+        <label>Human Agent Replacement Hourly Rate ($): <span class="val" id="humanRateVal">$18/hr</span></label>
+        <input type="range" id="humanRate" min="8" max="50" step="1" value="18" oninput="calculate()">
+      </div>
     </div>
-  </section>
 
-  <div class="head">
-    <h2 id="results">Provider comparison</h2>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button id="copy" class="btn ghost">Copy summary</button>
-      <button id="csv" class="btn ghost">Download CSV</button>
-      <button onclick="window.print()" class="btn ghost">🖨️ Print Quote</button>
-      <a id="pro" class="btn" href="#">Pro waitlist</a>
+    <!-- Right Column: Live Output & Analytics -->
+    <div class="card results-card">
+      <h2>Proposal Summary & Client Quote</h2>
+
+      <div class="big-stat">
+        <div class="label">Client Billed Monthly Retainer</div>
+        <div class="amount" id="clientTotal">$0</div>
+        <div class="subtext" id="perMinRate">$0.00 per billed minute</div>
+      </div>
+
+      <!-- Cost Stack Bar -->
+      <div class="stack-container">
+        <div class="stack-title">
+          <span>Cost Stack Breakdown (%)</span>
+          <span id="tierDiscountLabel" style="color: var(--success); font-weight: 600;">Standard Tier</span>
+        </div>
+        <div class="stack-bar">
+          <div id="segPlatform" class="stack-seg seg-platform" style="width: 20%;"></div>
+          <div id="segLLM" class="stack-seg seg-llm" style="width: 20%;"></div>
+          <div id="segVoice" class="stack-seg seg-voice" style="width: 20%;"></div>
+          <div id="segSTT" class="stack-seg seg-stt" style="width: 10%;"></div>
+          <div id="segTelephony" class="stack-seg seg-telephony" style="width: 10%;"></div>
+          <div id="segMarkup" class="stack-seg seg-markup" style="width: 20%;"></div>
+        </div>
+        <div class="stack-legend">
+          <div class="legend-item"><div class="legend-dot seg-platform"></div> Platform</div>
+          <div class="legend-item"><div class="legend-dot seg-llm"></div> LLM</div>
+          <div class="legend-item"><div class="legend-dot seg-voice"></div> Voice TTS</div>
+          <div class="legend-item"><div class="legend-dot seg-stt"></div> STT</div>
+          <div class="legend-item"><div class="legend-dot seg-telephony"></div> Phone</div>
+          <div class="legend-item"><div class="legend-dot seg-markup"></div> Agency Profit</div>
+        </div>
+      </div>
+
+      <div class="breakdown-list">
+        <div class="breakdown-item">
+          <span>Hard Infrastructure Cost (COGS)</span>
+          <strong id="cogsCost">$0</strong>
+        </div>
+        <div class="breakdown-item">
+          <span>Monthly Phone Number Rental (DIDs)</span>
+          <strong id="didCost">$0</strong>
+        </div>
+        <div class="breakdown-item" style="color: #f97316;">
+          <span>Agency Gross Monthly Profit</span>
+          <strong id="agencyProfit">$0</strong>
+        </div>
+        <div class="breakdown-item">
+          <span>Equivalent Human Staff Cost</span>
+          <strong id="humanCost">$0</strong>
+        </div>
+        <div class="breakdown-item" style="color: var(--success); font-weight: 700;">
+          <span>Estimated Client Net Monthly Savings</span>
+          <strong id="netSavings">$0</strong>
+        </div>
+      </div>
+
+      <div class="action-btns">
+        <button class="btn btn-primary" onclick="openModal()">📄 Export Proposal PDF</button>
+        <button class="btn btn-secondary" onclick="copyShareLink()">🔗 Share Configuration</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Last verified provider rate updates: October 2026 | <a href="#">Official Source Rates</a> | <a href="#">Terms & Privacy</a></p>
+  </footer>
+</div>
+
+<!-- Lead Generation Modal -->
+<div class="modal" id="leadModal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <h3 style="margin-bottom: 10px;">Download Custom Agency Proposal</h3>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Enter client details to generate a formatted PDF proposal ready for signature.</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <input type="text" id="clientName" placeholder="Client / Company Name" />
+      <input type="email" id="clientEmail" placeholder="Client Contact Email" />
+      <button class="btn btn-primary" onclick="generatePDF()">Download Formatted PDF</button>
     </div>
   </div>
-  <div id="cards"></div>
-  <p id="live" class="sr" aria-live="polite"></p>
-  <p class="disc">Some links on this page are affiliate links. We may earn a commission at no extra cost to you. We are not affiliated with Vapi, Retell AI, Bland AI or Synthflow. Estimates assume typical public pricing and an average usage load per minute.</p>
-
-  <p class="note">Your numbers are saved in this browser only. Pro (planned): PDF client reports, custom provider rates and saved scenarios. Join the waitlist.</p>
-  <section id="stats" aria-label="Key numbers"></section>
-
-  <section class="guide">
-    <h2>Who this calculator is for</h2>
-    <p>Agencies pricing voice agents for clients, founders choosing a platform, and teams moving from a pilot to real call volume. Appointment booking usually means short calls, support lines mean medium calls, and outbound sales means many calls with a few minutes each. Enter your own call length to see how each shape changes the bill.</p>
-    <h2 style="margin-top:28px">Five ways to cut voice agent cost</h2>
-    <ul><li>Use a smaller language model for simple tasks such as booking.</li><li>Test cheaper voice engines on your own script before you commit.</li><li>Keep prompts short. Long prompts raise LLM cost on every turn.</li><li>End calls quickly when the goal is met.</li><li>Ask providers for committed-volume pricing once you pass a steady monthly volume.</li></ul>
-    <p>Read more: <a href="/ai-voice-agent-cost-per-minute.html">AI voice agent cost per minute</a> and <a href="/vapi-vs-retell.html">Vapi vs Retell</a>.</p>
-  </section>
-
-  <section class="guide">
-    <h2>How the estimate works</h2>
-    <p>Most platforms advertise one platform fee. A real call also pays for speech-to-text, a language model, a voice engine and phone minutes. Vapi and Retell bill these separately, so the calculator adds them up. Bland and Synthflow bundle more of the stack, so the calculator treats their rates differently. Per-call cost is your monthly total divided by calls. For a closer look, read <a href="/vapi-vs-retell.html">Vapi vs Retell</a>.</p>
-  </section>
-
-  <section class="guide" aria-labelledby="faq">
-    <h2 id="faq" style="margin-bottom:16px">Frequently asked questions</h2>
-    <details><summary>Vapi vs Retell cost: which is cheaper?</summary><p>Both charge a per-minute platform fee and pass through LLM, voice, speech-to-text and telephony. Vapi's platform fee is usually lower, but your model and voice choices change the total more than the platform does. Adjust the inputs above to compare at your volume.</p></details>
-    <details><summary>What are ElevenLabs per minute rates for voice agents?</summary><p>ElevenLabs is typically one of the pricier voice engines. Deepgram and Cartesia are often much cheaper, with different voice quality. Test the voices before you decide.</p></details>
-    <details><summary>How much does Twilio add per minute?</summary><p>US outbound calls on Twilio run about $0.014 per minute plus number rental. Some platforms bundle telephony into their rate.</p></details>
-    <details><summary>Are these prices exact?</summary><p>No. They are planning estimates. Providers change pricing often, so confirm current rates on each provider's pricing page.</p></details>
-  </section>
-</main>
-
-<footer>
-  <p>© <span id="yr"></span> aivoicecalc.vercel.app</p>
-  <p><a href="/">Calculator</a> · <a href="/vapi-vs-retell.html">Vapi vs Retell</a> · <a href="/ai-voice-agent-cost-per-minute.html">Cost per minute</a> · <a href="/about.html">About</a> · <a href="/contact.html">Contact</a> · <a href="/disclaimer.html">Disclaimer</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
-</footer>
 </div>
 
 <script>
-(function(){
-  var LLM={mini:{n:'GPT-4o Mini',r:.006},'4o':{n:'GPT-4o',r:.06},claude:{n:'Claude Sonnet',r:.07},llama:{n:'Llama 3',r:.01}};
-  var VOICE={eleven:{n:'ElevenLabs',r:.10},deepgram:{n:'Deepgram',r:.015},cartesia:{n:'Cartesia',r:.04},playht:{n:'PlayHT',r:.05}};
-  var STT={deepgram:{n:'Deepgram Nova-3',r:.0043},assembly:{n:'AssemblyAI',r:.006},whisper:{n:'OpenAI Whisper',r:.006}};
-  var TEL={twilio:{n:'Twilio',r:.014},telnyx:{n:'Telnyx',r:.005},plivo:{n:'Plivo',r:.0055}};
-
-  var AFF={vapi:'',retell:'',bland:'',synth:''};
-  var PROV=[
-    {id:'vapi',n:'Vapi AI',plat:.05,base:0,page:'https://vapi.ai/pricing'},
-    {id:'retell',n:'Retell AI',plat:.07,base:0,page:'https://www.retellai.com/pricing'},
-    {id:'bland',n:'Bland AI',flat:.12,note:'One all-in rate: LLM, voice, STT and telephony included.',page:'https://www.bland.ai/pricing'},
-    {id:'synth',n:'Synthflow',plat:.08,sttOverride:0,base:29,approx:true,page:'https://synthflow.ai/pricing'}
-  ];
-  var RATE={USD:1,EUR:.92,GBP:.79,PKR:280,INR:88},SYM={USD:'$',EUR:'€',GBP:'£',PKR:'Rs ',INR:'₹'};
-  var K=1,PL='/mo',cur='USD',$=function(i){return document.getElementById(i)};
-  var minEl=$('minutes'),durEl=$('duration'),callsEl=$('calls'),markupEl=$('markup');
-
-  window.applyPreset = function(calls, durationSec){
-    durEl.value = durationSec;
-    callsEl.value = calls;
-    fromCalls();
-  };
-
-  function fmt(v){return SYM[cur]+(v*RATE[cur]).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
-  
-  function calc(){
-    var m=+minEl.value,llm=LLM[$('llm').value],voice=VOICE[$('voice').value];
-    var stt=STT[$('stt').value],tel=TEL[$('telephony').value];
-    var markupPct=(+markupEl.value||0)/100;
-
-    return PROV.map(function(p){
-      var rows;
-      if(p.flat){
-        rows=[['All-in rate',p.flat*m]];
-      } else {
-        var sttRate = p.sttOverride !== undefined ? p.sttOverride : stt.r;
-        rows=[['Platform fee',p.plat*m],['Voice ('+voice.n+')',voice.r*m],['Speech-to-text ('+stt.n+')',sttRate*m],['LLM ('+llm.n+')',llm.r*m],['Telephony ('+tel.n+')',tel.r*m]];
-        if(p.base)rows.push(['Monthly base plan',p.base]);
-      }
-      var baseTotal=rows.reduce(function(a,r){return a+r[1]},0);
-      if(markupPct > 0){
-        rows.push(['Agency Margin ('+(markupPct*100)+'%)', baseTotal * markupPct]);
-      }
-      var total = baseTotal * (1 + markupPct);
-      return {p:p,rows:rows,total:total,perMin:m?total/m:0};
-    });
+  // Initial parameters
+  function getParams() {
+    return {
+      minutes: parseFloat(document.getElementById('minutes').value),
+      duration: parseFloat(document.getElementById('duration').value),
+      dids: parseInt(document.getElementById('didCount').value),
+      platformRate: parseFloat(document.getElementById('platformVendor').value),
+      llmRate: parseFloat(document.getElementById('llmVendor').value),
+      ttsRate: parseFloat(document.getElementById('ttsVendor').value),
+      telephonyRate: parseFloat(document.getElementById('telephonyVendor').value),
+      markupPercent: parseFloat(document.getElementById('markup').value),
+      humanHourly: parseFloat(document.getElementById('humanRate').value)
+    };
   }
 
-  function render(){
-    try{localStorage.setItem('avc',JSON.stringify({m:minEl.value,d:durEl.value,l:$('llm').value,v:$('voice').value,mk:markupEl.value}))}catch(e){}
-    var m=+minEl.value,calls=+callsEl.value||1;
-    $('minOut').textContent=m.toLocaleString('en-US')+' min';
-    $('markupOut').textContent=markupEl.value+'%';
+  function calculate() {
+    const p = getParams();
+
+    // Dynamic Labels Update
+    document.getElementById('minVal').innerText = p.minutes.toLocaleString();
+    document.getElementById('durVal').innerText = p.duration;
+    document.getElementById('didVal').innerText = p.dids;
+    document.getElementById('markupVal').innerText = p.markupPercent + '%';
+    document.getElementById('humanRateVal').innerText = '$' + p.humanHourly + '/hr';
+
+    // Volume Tier Discount Logic
+    let tierDiscount = 0;
+    if (p.minutes >= 50000) { tierDiscount = 0.20; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 20% Off Platform"; }
+    else if (p.minutes >= 20000) { tierDiscount = 0.10; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 10% Off Platform"; }
+    else { document.getElementById('tierDiscountLabel').innerText = "Standard Volume Tier"; }
+
+    const sttRate = 0.008; // Flat STT rate
+    const effectivePlatformRate = p.platformRate * (1 - tierDiscount);
+
+    // Per minute costs
+    const minPlatform = effectivePlatformRate;
+    const minLLM = p.llmRate;
+    const minTTS = p.ttsRate;
+    const minSTT = sttRate;
+    const minTel = p.telephonyRate;
+
+    const basePerMinCOGS = minPlatform + minLLM + minTTS + minSTT + minTel;
     
-    var res=calc(),totals=res.map(function(r){return r.total}),min=Math.min.apply(null,totals),worst=Math.max.apply(null,totals);
-    $('cards').innerHTML=res.map(function(r){
-      var best=r.total===min,link=AFF[r.p.id]||r.p.page,aff=!!AFF[r.p.id];
-      return '<article class="card'+(best?' best':'')+'">'+
-        '<div class="top"><h3>'+r.p.n+'</h3>'+(best?'<span class="tag">Lowest estimate</span>':'')+'</div>'+
-        '<p class="total">'+fmt(r.total*K)+'<small> '+PL+'</small></p>'+
-        '<p class="sub">'+fmt(r.perMin)+' per minute'+(best?'':' · '+fmt((r.total-min)*K)+' more')+'</p>'+
-        (r.p.note?'<p class="badge" style="color:var(--muted)">'+r.p.note+'</p>':'')+
-        (r.p.approx?'<p class="badge">Approximate rates. Verify on their pricing page.</p>':'')+
-        '<dl>'+r.rows.map(function(x){return '<div><dt>'+x[0]+'</dt><dd>'+fmt(x[1]*K)+'</dd></div>'}).join('')+'</dl>'+
-        '<div class="bar"><i style="width:'+(worst?r.total/worst*100:0)+'%"></i></div>'+
-        '<a class="btn" href="'+link+'" target="_blank" rel="noopener'+(aff?' sponsored':'')+'">View '+r.p.n+' pricing</a>'+
-      '</article>';
-    }).join('');
+    // Monthly totals
+    const totalMinutesCost = basePerMinCOGS * p.minutes;
+    const totalDidCost = p.dids * 1.15; // $1.15 per month per DID
+    const totalCOGS = totalMinutesCost + totalDidCost;
 
-    $('stats').innerHTML=[['Lowest cost per call',fmt(min/calls)],['Lowest cost per hour of talk time',fmt(min/m*60)],['Saved vs the priciest option '+PL,fmt((worst-min)*K)]].map(function(x){
-      return '<div class="panel"><p>'+x[0]+'</p><strong>'+x[1]+'</strong></div>'}).join('');
-    var cheapest=res.filter(function(r){return r.total===min})[0];
-    $('live').textContent='Lowest estimate: '+cheapest.p.n+' at '+fmt(min*K)+' '+PL;
+    const profitMargin = totalCOGS * (p.markupPercent / 100);
+    const clientBilledTotal = totalCOGS + profitMargin;
+    const effectiveBilledPerMin = p.minutes > 0 ? (clientBilledTotal / p.minutes) : 0;
+
+    // Human equivalent cost calculation (Assumes 50 mins productive phone work per hour)
+    const humanHoursEquivalent = p.minutes / 50;
+    const equivalentHumanCost = humanHoursEquivalent * p.humanHourly;
+    const netSavings = Math.max(0, equivalentHumanCost - clientBilledTotal);
+
+    // Update DOM
+    document.getElementById('clientTotal').innerText = '$' + Math.round(clientBilledTotal).toLocaleString();
+    document.getElementById('perMinRate').innerText = '$' + effectiveBilledPerMin.toFixed(2) + ' per billed minute';
+    document.getElementById('cogsCost').innerText = '$' + Math.round(totalCOGS).toLocaleString();
+    document.getElementById('didCost').innerText = '$' + totalDidCost.toFixed(2);
+    document.getElementById('agencyProfit').innerText = '$' + Math.round(profitMargin).toLocaleString();
+    document.getElementById('humanCost').innerText = '$' + Math.round(equivalentHumanCost).toLocaleString();
+    document.getElementById('netSavings').innerText = '$' + Math.round(netSavings).toLocaleString();
+
+    // Stack Bar Percentage Width Updates
+    const grandTotal = clientBilledTotal || 1;
+    document.getElementById('segPlatform').style.width = ((minPlatform * p.minutes / grandTotal) * 100) + '%';
+    document.getElementById('segLLM').style.width = ((minLLM * p.minutes / grandTotal) * 100) + '%';
+    document.getElementById('segVoice').style.width = ((minTTS * p.minutes / grandTotal) * 100) + '%';
+    document.getElementById('segSTT').style.width = ((minSTT * p.minutes / grandTotal) * 100) + '%';
+    document.getElementById('segTelephony').style.width = (((minTel * p.minutes + totalDidCost) / grandTotal) * 100) + '%';
+    document.getElementById('segMarkup').style.width = ((profitMargin / grandTotal) * 100) + '%';
   }
 
-  function fromMinutes(){var d=+durEl.value||1;callsEl.value=Math.round(+minEl.value*60/d);render()}
-  function fromCalls(){
-    var v=Math.round((+callsEl.value||0)*(+durEl.value||0)/60);
-    minEl.value=Math.min(200000,Math.max(100,v));
-    callsEl.value=Math.round(+minEl.value*60/(+durEl.value||1));
-    render();
+  // Presets Logic
+  function applyPreset(type) {
+    if (type === 'support') {
+      document.getElementById('minutes').value = 3000;
+      document.getElementById('duration').value = 2.0;
+      document.getElementById('didCount').value = 2;
+      document.getElementById('markup').value = 35;
+    } else if (type === 'sales') {
+      document.getElementById('minutes').value = 15000;
+      document.getElementById('duration').value = 4.0;
+      document.getElementById('didCount').value = 10;
+      document.getElementById('markup').value = 50;
+    } else if (type === 'enterprise') {
+      document.getElementById('minutes').value = 60000;
+      document.getElementById('duration').value = 3.5;
+      document.getElementById('didCount').value = 25;
+      document.getElementById('markup').value = 40;
+    }
+    calculate();
   }
 
-  minEl.addEventListener('input',fromMinutes);
-  durEl.addEventListener('input',fromCalls);
-  callsEl.addEventListener('input',fromCalls);
-  markupEl.addEventListener('input',render);
+  // Share Link Feature (URL Params)
+  function copyShareLink() {
+    const p = getParams();
+    const url = new URL(window.location.href);
+    Object.keys(p).forEach(key => url.searchParams.set(key, p[key]));
+    navigator.clipboard.writeText(url.href);
+    alert('🔗 Configuration Share Link copied to clipboard!');
+  }
 
-  $('llm').addEventListener('change',render);
-  $('voice').addEventListener('change',render);
-  $('stt').addEventListener('change',render);
-  $('telephony').addEventListener('change',render);
-
-  function seg(attr,fn){document.querySelectorAll('['+attr+']').forEach(function(b){b.addEventListener('click',function(){
-    document.querySelectorAll('['+attr+']').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});fn(b);render()})})}
-  seg('data-cur',function(b){cur=b.dataset.cur});
-  seg('data-per',function(b){K=b.dataset.per==='yr'?12:1;PL=K===12?'/yr':'/mo'});
-
-  $('copy').addEventListener('click',function(){
-    var res=calc().sort(function(a,b){return a.total-b.total}),btn=$('copy');
-    var t='AI Voice Agent Cost Estimate\n'+(+minEl.value).toLocaleString('en-US')+' min/month · '+(+callsEl.value).toLocaleString('en-US')+' calls · '+durEl.value+'s average\nLLM: '+LLM[$('llm').value].n+' | Voice: '+VOICE[$('voice').value].n+' | Currency: '+cur+'\n\n'+
-      res.map(function(r){return r.p.n+': '+fmt(r.total*K)+' '+PL+' ('+fmt(r.perMin)+'/min)'}).join('\n')+'\n\nEstimates only. Source: aivoicecalc.vercel.app';
-    function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy summary'},1800)}
-    function fallback(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}ta.remove();done()}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback)}else{fallback()}
+  // Load URL Params if available
+  window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('minutes')) {
+      document.getElementById('minutes').value = urlParams.get('minutes');
+      document.getElementById('duration').value = urlParams.get('duration');
+      document.getElementById('didCount').value = urlParams.get('dids');
+      document.getElementById('markup').value = urlParams.get('markupPercent');
+      document.getElementById('humanRate').value = urlParams.get('humanHourly');
+    }
+    calculate();
   });
 
-  $('yr').textContent=new Date().getFullYear();
-  $('pro').href='mailto:contact@aivoicecalc.com?subject=Pro%20waitlist';
-  
-  $('csv').addEventListener('click',function(){
-    var rows=[['Provider','Total '+PL,'Per minute (USD)']].concat(calc().map(function(r){return [r.p.n,(r.total*K*RATE[cur]).toFixed(2)+' '+cur,r.perMin.toFixed(4)]}));
-    var b=new Blob([rows.map(function(r){return r.join(',')}).join('\n')],{type:'text/csv'}),a=document.createElement('a');
-    a.href=URL.createObjectURL(b);a.download='voice-agent-costs.csv';document.body.appendChild(a);a.click();a.remove();
-  });
-
-  try{var sv=JSON.parse(localStorage.getItem('avc')||'null');if(sv){minEl.value=sv.m;durEl.value=sv.d;$('llm').value=sv.l;$('voice').value=sv.v;if(sv.mk)markupEl.value=sv.mk}}catch(e){}
-  if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
-  fromMinutes();
-})();
+  // Modal Control
+  function openModal() { document.getElementById('leadModal').classList.add('active'); }
+  function closeModal() { document.getElementById('leadModal').classList.remove('active'); }
+  function generatePDF() {
+    const client = document.getElementById('clientName').value;
+    if(!client) { alert('Please enter Client Name'); return; }
+    alert(`Proposal PDF generated for ${client}! Printing proposal...`);
+    closeModal();
+    window.print();
+  }
 </script>
+
 </body>
 </html>

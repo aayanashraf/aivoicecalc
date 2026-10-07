@@ -61,7 +61,7 @@
     .input-group span.val { color: #38bdf8; font-weight: 600; }
     
     input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
-    select, input[type="number"], input[type="text"] { width: 100%; padding: 9px; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.88rem; }
+    select, input[type="number"], input[type="text"], input[type="email"] { width: 100%; padding: 9px; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.88rem; }
 
     .radio-toggle { display: flex; gap: 10px; }
     .radio-toggle label { flex: 1; text-align: center; background: #0f172a; padding: 8px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.82rem; }
@@ -104,6 +104,14 @@
     .btn-primary:hover { background: var(--accent-hover); }
     .btn-secondary { background: #334155; color: #fff; }
 
+    /* FAQ Section */
+    .faq-section { margin-top: 40px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .faq-section h3 { font-size: 1.2rem; color: #60a5fa; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 800px) { .faq-grid { grid-template-columns: 1fr; } }
+    .faq-item h4 { font-size: 0.92rem; color: #fff; margin-bottom: 5px; }
+    .faq-item p { font-size: 0.82rem; color: var(--text-muted); }
+
     /* Comparison Table Modal */
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
     .modal.active { display: flex; }
@@ -114,7 +122,7 @@
     table.compare-table th, table.compare-table td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
     table.compare-table th { background: #0f172a; color: #60a5fa; }
 
-    footer { margin-top: 35px; text-align: center; border-top: 1px solid var(--border); padding-top: 18px; color: var(--text-muted); font-size: 0.78rem; }
+    footer { margin-top: 30px; text-align: center; border-top: 1px solid var(--border); padding-top: 18px; color: var(--text-muted); font-size: 0.78rem; }
     footer a { color: #60a5fa; text-decoration: none; margin: 0 6px; }
   </style>
 </head>
@@ -279,6 +287,29 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- FAQ Section for Extra Engagement & SEO -->
+  <div class="faq-section">
+    <h3>Frequently Asked Questions</h3>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h4>How is Infrastructure COGS calculated?</h4>
+        <p>COGS aggregates per-minute pricing from your chosen voice platform (Vapi/Retell), LLM (OpenAI/Groq), Text-to-Speech (ElevenLabs/Cartesia), STT, and telecom carrier trunking fees.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What is a healthy agency profit markup?</h4>
+        <p>Most AI Automation Agencies (AAAs) target a 35% to 50% profit margin on top of raw infrastructure costs, alongside a one-time onboarding setup fee.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Why does voice latency matter?</h4>
+        <p>Conversational latency under 600ms feels completely human-like. Higher latencies create awkward pauses during phone calls, affecting client conversion rates.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I use this for multi-currency invoicing?</h4>
+        <p>Yes! Use the currency dropdown at the top right to instantly convert all estimates into USD, EUR, GBP, SAR, AED, or INR.</p>
+      </div>
+    </div>
   </div>
 
   <footer>

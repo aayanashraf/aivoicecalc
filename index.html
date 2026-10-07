@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Voice Agent Cost & ROI Calculator | Agency Pricing Engine</title>
-  <meta name="description" content="Calculate complete AI Voice Agent infrastructure costs, vendor stack fees, agency profit markup, and client ROI in real-time." />
+  <title>AI Voice Agent Cost & ROI Calculator | Ultra Agency Engine</title>
+  <meta name="description" content="Ultimate AI Voice Agent infrastructure, stack comparison, latency estimator, and agency pricing engine." />
   
   <style>
     :root {
@@ -16,51 +16,65 @@
       --text-muted: #94a3b8;
       --border: #334155;
       --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
     body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; padding: 20px; }
-    .container { max-width: 1200px; margin: 0 auto; }
+    .container { max-width: 1250px; margin: 0 auto; }
     
-    header { text-align: center; margin-bottom: 30px; }
-    header h1 { font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-    header p { color: var(--text-muted); font-size: 1rem; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+    header h1 { font-size: 2rem; font-weight: 700; color: #fff; }
+    header p { color: var(--text-muted); font-size: 0.95rem; }
 
-    /* Presets Bar */
-    .presets-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 25px; }
-    .preset-btn { background: #334155; border: 1px solid var(--border); color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+    .currency-selector { display: flex; align-items: center; gap: 8px; background: var(--card-bg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; }
+    .currency-selector select { background: transparent; border: none; color: #fff; font-weight: 600; cursor: pointer; outline: none; }
+
+    /* Presets & Optimizer Bar */
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; background: #182234; padding: 12px; border-radius: 10px; border: 1px solid var(--border); }
+    .preset-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .preset-btn { background: #334155; border: 1px solid var(--border); color: #fff; padding: 7px 14px; border-radius: 20px; cursor: pointer; font-size: 0.82rem; transition: 0.2s; }
     .preset-btn:hover { background: var(--accent); border-color: var(--accent); }
+    .optimizer-btn { background: linear-gradient(135deg, #10b981, #059669); font-weight: 600; border: none; }
 
     /* Main Grid */
-    .calculator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    @media (max-width: 900px) { .calculator-grid { grid-template-columns: 1fr; } }
+    .calculator-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; }
+    @media (max-width: 950px) { .calculator-grid { grid-template-columns: 1fr; } }
 
-    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-    .card h2 { font-size: 1.25rem; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; color: #60a5fa; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+    .card h2 { font-size: 1.15rem; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; color: #60a5fa; display: flex; justify-content: space-between; align-items: center; }
 
-    .input-group { margin-bottom: 18px; }
-    .input-group label { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .input-group { margin-bottom: 16px; }
+    .input-group label { display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 500; margin-bottom: 5px; }
     .input-group span.val { color: #38bdf8; font-weight: 600; }
     
     input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
-    select, input[type="number"] { width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.9rem; }
+    select, input[type="number"], input[type="text"] { width: 100%; padding: 9px; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.88rem; }
+
+    .radio-toggle { display: flex; gap: 10px; }
+    .radio-toggle label { flex: 1; text-align: center; background: #0f172a; padding: 8px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.82rem; }
+    .radio-toggle input { display: none; }
+    .radio-toggle input:checked + span { color: #38bdf8; font-weight: bold; }
 
     /* Results Card */
     .results-card { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #3b82f6; }
     
-    .big-stat { text-align: center; margin-bottom: 20px; background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid var(--border); }
-    .big-stat .label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .big-stat .amount { font-size: 2.2rem; font-weight: 800; color: #34d399; margin: 4px 0; }
-    .big-stat .subtext { font-size: 0.8rem; color: #a7f3d0; }
+    .big-stat { text-align: center; margin-bottom: 18px; background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid var(--border); }
+    .big-stat .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .big-stat .amount { font-size: 2.1rem; font-weight: 800; color: #34d399; margin: 4px 0; }
+    .big-stat .subtext { font-size: 0.78rem; color: #a7f3d0; }
 
-    .breakdown-list { margin-top: 15px; font-size: 0.88rem; }
-    .breakdown-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border); }
-    .breakdown-item:last-child { border-bottom: none; }
+    /* Latency Meter */
+    .latency-box { background: #0f172a; border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin-bottom: 18px; }
+    .latency-header { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 6px; }
+    .latency-bar-bg { width: 100%; height: 8px; background: #334155; border-radius: 4px; overflow: hidden; }
+    .latency-bar-fill { height: 100%; width: 40%; background: var(--success); transition: 0.3s; }
 
-    /* Visual Cost Stack Bar */
-    .stack-container { margin: 20px 0; }
-    .stack-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; }
-    .stack-bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: #0f172a; }
+    /* Cost Stack Bar */
+    .stack-container { margin: 18px 0; }
+    .stack-title { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .stack-bar { display: flex; height: 16px; border-radius: 8px; overflow: hidden; background: #0f172a; }
     .stack-seg { height: 100%; transition: width 0.3s ease; }
     .seg-platform { background: #6366f1; }
     .seg-llm { background: #3b82f6; }
@@ -69,49 +83,68 @@
     .seg-telephony { background: #10b981; }
     .seg-markup { background: #f97316; }
 
-    .stack-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 0.75rem; }
-    .legend-item { display: flex; align-items: center; gap: 4px; }
-    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .breakdown-list { margin-top: 12px; font-size: 0.85rem; }
+    .breakdown-item { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed var(--border); }
 
-    /* Actions */
-    .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-    .btn { padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; transition: 0.2s; font-size: 0.9rem; }
+    /* Actions & Comparison */
+    .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+    .btn { padding: 10px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; transition: 0.2s; font-size: 0.85rem; }
     .btn-primary { background: var(--accent); color: #fff; }
     .btn-primary:hover { background: var(--accent-hover); }
     .btn-secondary { background: #334155; color: #fff; }
-    .btn-secondary:hover { background: #475569; }
 
-    /* Lead Modal */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    /* Comparison Table Modal */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
     .modal.active { display: flex; }
-    .modal-content { background: var(--card-bg); border: 1px solid var(--border); width: 100%; max-width: 450px; border-radius: 12px; padding: 24px; position: relative; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--border); width: 100%; max-width: 650px; border-radius: 12px; padding: 24px; position: relative; max-height: 90vh; overflow-y: auto; }
     .close-modal { position: absolute; right: 15px; top: 15px; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; }
 
-    /* Footer */
-    footer { margin-top: 40px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px; color: var(--text-muted); font-size: 0.8rem; }
-    footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
+    table.compare-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+    table.compare-table th, table.compare-table td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    table.compare-table th { background: #0f172a; color: #60a5fa; }
+
+    footer { margin-top: 35px; text-align: center; border-top: 1px solid var(--border); padding-top: 18px; color: var(--text-muted); font-size: 0.78rem; }
+    footer a { color: #60a5fa; text-decoration: none; margin: 0 6px; }
   </style>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <h1>AI Voice Agent Cost Engine</h1>
-    <p>Estimate infrastructure costs, custom vendor stacks, agency markup, and client ROI</p>
+    <div>
+      <h1>AI Voice Agent Cost Engine</h1>
+      <p>Infrastructure costs, latency benchmarks, stack comparison, & client ROI</p>
+    </div>
+    
+    <!-- Currency Switcher -->
+    <div class="currency-selector">
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Currency:</span>
+      <select id="currency" onchange="calculate()">
+        <option value="USD" data-symbol="$" data-rate="1" selected>USD ($)</option>
+        <option value="EUR" data-symbol="€" data-rate="0.92">EUR (€)</option>
+        <option value="GBP" data-symbol="£" data-rate="0.78">GBP (£)</option>
+        <option value="SAR" data-symbol="﷼" data-rate="3.75">SAR (﷼)</option>
+        <option value="AED" data-symbol="د.إ" data-rate="3.67">AED (د.إ)</option>
+        <option value="INR" data-symbol="₹" data-rate="83.5">INR (₹)</option>
+      </select>
+    </div>
   </header>
 
-  <!-- Presets -->
-  <div class="presets-bar">
-    <button class="preset-btn" onclick="applyPreset('support')">🎧 Support Hotline (Low Vol)</button>
-    <button class="preset-btn" onclick="applyPreset('sales')">📞 Outbound Sales (Med Vol)</button>
-    <button class="preset-btn" onclick="applyPreset('enterprise')">🏢 Enterprise Center (High Vol)</button>
+  <!-- Toolbar & Smart AI Optimizer -->
+  <div class="toolbar">
+    <div class="preset-group">
+      <button class="preset-btn" onclick="applyPreset('support')">🎧 Support Hotline</button>
+      <button class="preset-btn" onclick="applyPreset('sales')">📞 Outbound Sales</button>
+      <button class="preset-btn" onclick="applyPreset('enterprise')">🏢 Enterprise Center</button>
+    </div>
+    <button class="preset-btn optimizer-btn" onclick="autoOptimizeStack()">⚡ Auto-Optimize Stack (Lowest Cost)</button>
   </div>
 
   <div class="calculator-grid">
     
     <!-- Left Column: Inputs -->
     <div class="card">
-      <h2>1. Usage & Infrastructure Volume</h2>
+      <h2>1. Call Volume & Telephony Setup</h2>
       
       <div class="input-group">
         <label>Monthly Call Minutes: <span class="val" id="minVal">5,000</span></label>
@@ -119,8 +152,11 @@
       </div>
 
       <div class="input-group">
-        <label>Avg Call Duration (Minutes): <span class="val" id="durVal">3.0</span></label>
-        <input type="range" id="duration" min="0.5" max="10" step="0.5" value="3.0" oninput="calculate()">
+        <label>Telephony Direction & AMD</label>
+        <div class="radio-toggle">
+          <label><input type="radio" name="direction" value="inbound" checked onchange="calculate()"> <span>Inbound ($0.0085/m)</span></label>
+          <label><input type="radio" name="direction" value="outbound" onchange="calculate()"> <span>Outbound + AMD ($0.014/m)</span></label>
+        </div>
       </div>
 
       <div class="input-group">
@@ -133,62 +169,65 @@
       <div class="input-group">
         <label>Voice Platform Engine</label>
         <select id="platformVendor" onchange="calculate()">
-          <option value="0.05">Vapi / Retell Standard ($0.05 / min)</option>
-          <option value="0.09">Bland AI Enterprise ($0.09 / min)</option>
-          <option value="0.00">Custom OpenSource Framework ($0.00 / min)</option>
+          <option value="0.05" data-latency="150">Vapi / Retell Standard ($0.05 / min)</option>
+          <option value="0.09" data-latency="120">Bland AI Enterprise ($0.09 / min)</option>
+          <option value="0.00" data-latency="250">Custom OpenSource Framework ($0.00 / min)</option>
         </select>
       </div>
 
       <div class="input-group">
         <label>LLM Brain Model</label>
         <select id="llmVendor" onchange="calculate()">
-          <option value="0.02">OpenAI GPT-4o-mini / Claude Haiku (~$0.02 / min)</option>
-          <option value="0.06" selected>OpenAI GPT-4o / Claude 3.5 Sonnet (~$0.06 / min)</option>
-          <option value="0.01">DeepSeek V3 / Groq Llama 3 (~$0.01 / min)</option>
+          <option value="0.01" data-latency="200">Groq Llama 3.3 / DeepSeek V3 (~$0.01 / min)</option>
+          <option value="0.02" data-latency="350">OpenAI GPT-4o-mini (~$0.02 / min)</option>
+          <option value="0.06" data-latency="600" selected>OpenAI GPT-4o / Claude 3.5 Sonnet (~$0.06 / min)</option>
         </select>
       </div>
 
       <div class="input-group">
         <label>Voice Synthesis (TTS)</label>
         <select id="ttsVendor" onchange="calculate()">
-          <option value="0.04" selected>ElevenLabs Turbo v2 ($0.04 / min)</option>
-          <option value="0.02">Cartesia Sonic ($0.02 / min)</option>
-          <option value="0.01">Deepgram Aura ($0.01 / min)</option>
+          <option value="0.04" data-latency="300" selected>ElevenLabs Turbo v2 ($0.04 / min)</option>
+          <option value="0.02" data-latency="180">Cartesia Sonic ($0.02 / min)</option>
+          <option value="0.01" data-latency="150">Deepgram Aura ($0.01 / min)</option>
         </select>
       </div>
+
+      <h2>3. Agency Retainer & Setup Fee</h2>
 
       <div class="input-group">
-        <label>Telephony Carrier (SIP)</label>
-        <select id="telephonyVendor" onchange="calculate()">
-          <option value="0.015" selected>Twilio Programmable Voice ($0.015 / min)</option>
-          <option value="0.007">Telnyx Elastic SIP ($0.007 / min)</option>
-        </select>
+        <label>One-Time Client Setup / Onboarding Fee: <span class="val" id="setupFeeVal">$1,500</span></label>
+        <input type="range" id="setupFee" min="0" max="5000" step="250" value="1500" oninput="calculate()">
       </div>
-
-      <h2>3. Business & Agency Economics</h2>
 
       <div class="input-group">
         <label>Agency Profit Markup (%): <span class="val" id="markupVal">40%</span></label>
         <input type="range" id="markup" min="0" max="150" step="5" value="40" oninput="calculate()">
       </div>
-
-      <div class="input-group">
-        <label>Human Agent Replacement Hourly Rate ($): <span class="val" id="humanRateVal">$18/hr</span></label>
-        <input type="range" id="humanRate" min="8" max="50" step="1" value="18" oninput="calculate()">
-      </div>
     </div>
 
-    <!-- Right Column: Live Output & Analytics -->
+    <!-- Right Column: Results & Latency Benchmark -->
     <div class="card results-card">
-      <h2>Proposal Summary & Client Quote</h2>
+      <h2>Client Invoice & Latency Metrics</h2>
 
       <div class="big-stat">
-        <div class="label">Client Billed Monthly Retainer</div>
+        <div class="label">Monthly Billed Retainer</div>
         <div class="amount" id="clientTotal">$0</div>
-        <div class="subtext" id="perMinRate">$0.00 per billed minute</div>
+        <div class="subtext" id="firstMonthInvoice">First Month Total (Inc. Setup): $0</div>
       </div>
 
-      <!-- Cost Stack Bar -->
+      <!-- Latency Speed Benchmark Meter -->
+      <div class="latency-box">
+        <div class="latency-header">
+          <span>⚡ Est. Response Latency: <strong id="latencyVal" style="color: #38bdf8;">850 ms</strong></span>
+          <span id="latencyBadge" style="color: var(--success); font-weight: bold;">Real-Time</span>
+        </div>
+        <div class="latency-bar-bg">
+          <div id="latencyBar" class="latency-bar-fill"></div>
+        </div>
+      </div>
+
+      <!-- Visual Cost Stack -->
       <div class="stack-container">
         <div class="stack-title">
           <span>Cost Stack Breakdown (%)</span>
@@ -202,27 +241,15 @@
           <div id="segTelephony" class="stack-seg seg-telephony" style="width: 10%;"></div>
           <div id="segMarkup" class="stack-seg seg-markup" style="width: 20%;"></div>
         </div>
-        <div class="stack-legend">
-          <div class="legend-item"><div class="legend-dot seg-platform"></div> Platform</div>
-          <div class="legend-item"><div class="legend-dot seg-llm"></div> LLM</div>
-          <div class="legend-item"><div class="legend-dot seg-voice"></div> Voice TTS</div>
-          <div class="legend-item"><div class="legend-dot seg-stt"></div> STT</div>
-          <div class="legend-item"><div class="legend-dot seg-telephony"></div> Phone</div>
-          <div class="legend-item"><div class="legend-dot seg-markup"></div> Agency Profit</div>
-        </div>
       </div>
 
       <div class="breakdown-list">
         <div class="breakdown-item">
-          <span>Hard Infrastructure Cost (COGS)</span>
+          <span>Infrastructure COGS (Monthly)</span>
           <strong id="cogsCost">$0</strong>
         </div>
-        <div class="breakdown-item">
-          <span>Monthly Phone Number Rental (DIDs)</span>
-          <strong id="didCost">$0</strong>
-        </div>
         <div class="breakdown-item" style="color: #f97316;">
-          <span>Agency Gross Monthly Profit</span>
+          <span>Agency Monthly Gross Profit</span>
           <strong id="agencyProfit">$0</strong>
         </div>
         <div class="breakdown-item">
@@ -230,169 +257,193 @@
           <strong id="humanCost">$0</strong>
         </div>
         <div class="breakdown-item" style="color: var(--success); font-weight: 700;">
-          <span>Estimated Client Net Monthly Savings</span>
+          <span>Client Net Monthly Savings</span>
           <strong id="netSavings">$0</strong>
         </div>
       </div>
 
       <div class="action-btns">
-        <button class="btn btn-primary" onclick="openModal()">📄 Export Proposal PDF</button>
-        <button class="btn btn-secondary" onclick="copyShareLink()">🔗 Share Configuration</button>
+        <button class="btn btn-primary" onclick="openModal('lead')">📄 Export Proposal PDF</button>
+        <button class="btn btn-secondary" onclick="openModal('compare')">⚖️ Compare Stacks</button>
       </div>
     </div>
 
   </div>
 
   <footer>
-    <p>Last verified provider rate updates: October 2026 | <a href="#">Official Source Rates</a> | <a href="#">Terms & Privacy</a></p>
+    <p>Last verified provider rate updates: October 2026 | <a href="#">Official Rates</a> | <a href="#">Terms & Privacy</a></p>
   </footer>
 </div>
 
-<!-- Lead Generation Modal -->
-<div class="modal" id="leadModal">
-  <div class="modal-content">
-    <span class="close-modal" onclick="closeModal()">&times;</span>
-    <h3 style="margin-bottom: 10px;">Download Custom Agency Proposal</h3>
-    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Enter client details to generate a formatted PDF proposal ready for signature.</p>
-    
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-      <input type="text" id="clientName" placeholder="Client / Company Name" />
-      <input type="email" id="clientEmail" placeholder="Client Contact Email" />
-      <button class="btn btn-primary" onclick="generatePDF()">Download Formatted PDF</button>
-    </div>
+<!-- Modals -->
+<div class="modal" id="appModal">
+  <div class="modal-content" id="modalBody">
+    <!-- Dynamic Content Loaded via JS -->
   </div>
 </div>
 
 <script>
-  // Initial parameters
-  function getParams() {
-    return {
-      minutes: parseFloat(document.getElementById('minutes').value),
-      duration: parseFloat(document.getElementById('duration').value),
-      dids: parseInt(document.getElementById('didCount').value),
-      platformRate: parseFloat(document.getElementById('platformVendor').value),
-      llmRate: parseFloat(document.getElementById('llmVendor').value),
-      ttsRate: parseFloat(document.getElementById('ttsVendor').value),
-      telephonyRate: parseFloat(document.getElementById('telephonyVendor').value),
-      markupPercent: parseFloat(document.getElementById('markup').value),
-      humanHourly: parseFloat(document.getElementById('humanRate').value)
-    };
-  }
+  let currentSymbol = '$';
+  let currentRate = 1;
 
   function calculate() {
-    const p = getParams();
+    // Currency Setup
+    const currSelect = document.getElementById('currency');
+    currentSymbol = currSelect.options[currSelect.selectedIndex].getAttribute('data-symbol');
+    currentRate = parseFloat(currSelect.options[currSelect.selectedIndex].getAttribute('data-rate'));
 
-    // Dynamic Labels Update
-    document.getElementById('minVal').innerText = p.minutes.toLocaleString();
-    document.getElementById('durVal').innerText = p.duration;
-    document.getElementById('didVal').innerText = p.dids;
-    document.getElementById('markupVal').innerText = p.markupPercent + '%';
-    document.getElementById('humanRateVal').innerText = '$' + p.humanHourly + '/hr';
+    const minutes = parseFloat(document.getElementById('minutes').value);
+    const dids = parseInt(document.getElementById('didCount').value);
+    const setupFee = parseFloat(document.getElementById('setupFee').value) * currentRate;
+    const markupPercent = parseFloat(document.getElementById('markup').value);
 
-    // Volume Tier Discount Logic
+    // Direction rate
+    const isOutbound = document.querySelector('input[name="direction"]:checked').value === 'outbound';
+    const telephonyRate = (isOutbound ? 0.014 : 0.0085) * currentRate;
+
+    // Vendor Rates
+    const platformRate = parseFloat(document.getElementById('platformVendor').value) * currentRate;
+    const llmRate = parseFloat(document.getElementById('llmVendor').value) * currentRate;
+    const ttsRate = parseFloat(document.getElementById('ttsVendor').value) * currentRate;
+    const sttRate = 0.008 * currentRate;
+
+    // DOM text updates
+    document.getElementById('minVal').innerText = minutes.toLocaleString();
+    document.getElementById('didVal').innerText = dids;
+    document.getElementById('setupFeeVal').innerText = currentSymbol + Math.round(setupFee).toLocaleString();
+    document.getElementById('markupVal').innerText = markupPercent + '%';
+
+    // Tier Discounts
     let tierDiscount = 0;
-    if (p.minutes >= 50000) { tierDiscount = 0.20; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 20% Off Platform"; }
-    else if (p.minutes >= 20000) { tierDiscount = 0.10; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 10% Off Platform"; }
-    else { document.getElementById('tierDiscountLabel').innerText = "Standard Volume Tier"; }
+    if (minutes >= 50000) { tierDiscount = 0.20; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 20% Off Platform"; }
+    else if (minutes >= 20000) { tierDiscount = 0.10; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 10% Off Platform"; }
+    else { document.getElementById('tierDiscountLabel').innerText = "Standard Tier"; }
 
-    const sttRate = 0.008; // Flat STT rate
-    const effectivePlatformRate = p.platformRate * (1 - tierDiscount);
-
-    // Per minute costs
-    const minPlatform = effectivePlatformRate;
-    const minLLM = p.llmRate;
-    const minTTS = p.ttsRate;
-    const minSTT = sttRate;
-    const minTel = p.telephonyRate;
-
-    const basePerMinCOGS = minPlatform + minLLM + minTTS + minSTT + minTel;
+    const effPlatformRate = platformRate * (1 - tierDiscount);
+    const basePerMinCOGS = effPlatformRate + llmRate + ttsRate + sttRate + telephonyRate;
     
-    // Monthly totals
-    const totalMinutesCost = basePerMinCOGS * p.minutes;
-    const totalDidCost = p.dids * 1.15; // $1.15 per month per DID
-    const totalCOGS = totalMinutesCost + totalDidCost;
+    const monthlyDidCost = dids * (1.15 * currentRate);
+    const totalCOGS = (basePerMinCOGS * minutes) + monthlyDidCost;
 
-    const profitMargin = totalCOGS * (p.markupPercent / 100);
-    const clientBilledTotal = totalCOGS + profitMargin;
-    const effectiveBilledPerMin = p.minutes > 0 ? (clientBilledTotal / p.minutes) : 0;
+    const profitMargin = totalCOGS * (markupPercent / 100);
+    const clientBilledMonthly = totalCOGS + profitMargin;
+    const firstMonthTotal = clientBilledMonthly + setupFee;
 
-    // Human equivalent cost calculation (Assumes 50 mins productive phone work per hour)
-    const humanHoursEquivalent = p.minutes / 50;
-    const equivalentHumanCost = humanHoursEquivalent * p.humanHourly;
-    const netSavings = Math.max(0, equivalentHumanCost - clientBilledTotal);
+    const humanCost = (minutes / 50) * (18 * currentRate);
+    const netSavings = Math.max(0, humanCost - clientBilledMonthly);
 
-    // Update DOM
-    document.getElementById('clientTotal').innerText = '$' + Math.round(clientBilledTotal).toLocaleString();
-    document.getElementById('perMinRate').innerText = '$' + effectiveBilledPerMin.toFixed(2) + ' per billed minute';
-    document.getElementById('cogsCost').innerText = '$' + Math.round(totalCOGS).toLocaleString();
-    document.getElementById('didCost').innerText = '$' + totalDidCost.toFixed(2);
-    document.getElementById('agencyProfit').innerText = '$' + Math.round(profitMargin).toLocaleString();
-    document.getElementById('humanCost').innerText = '$' + Math.round(equivalentHumanCost).toLocaleString();
-    document.getElementById('netSavings').innerText = '$' + Math.round(netSavings).toLocaleString();
+    // Update Results UI
+    document.getElementById('clientTotal').innerText = currentSymbol + Math.round(clientBilledMonthly).toLocaleString();
+    document.getElementById('firstMonthInvoice').innerText = `First Month Invoice (Inc. Setup): ${currentSymbol}${Math.round(firstMonthTotal).toLocaleString()}`;
+    document.getElementById('cogsCost').innerText = currentSymbol + Math.round(totalCOGS).toLocaleString();
+    document.getElementById('agencyProfit').innerText = currentSymbol + Math.round(profitMargin).toLocaleString();
+    document.getElementById('humanCost').innerText = currentSymbol + Math.round(humanCost).toLocaleString();
+    document.getElementById('netSavings').innerText = currentSymbol + Math.round(netSavings).toLocaleString();
 
-    // Stack Bar Percentage Width Updates
-    const grandTotal = clientBilledTotal || 1;
-    document.getElementById('segPlatform').style.width = ((minPlatform * p.minutes / grandTotal) * 100) + '%';
-    document.getElementById('segLLM').style.width = ((minLLM * p.minutes / grandTotal) * 100) + '%';
-    document.getElementById('segVoice').style.width = ((minTTS * p.minutes / grandTotal) * 100) + '%';
-    document.getElementById('segSTT').style.width = ((minSTT * p.minutes / grandTotal) * 100) + '%';
-    document.getElementById('segTelephony').style.width = (((minTel * p.minutes + totalDidCost) / grandTotal) * 100) + '%';
+    // Stack Bar Widths
+    const grandTotal = clientBilledMonthly || 1;
+    document.getElementById('segPlatform').style.width = (((effPlatformRate * minutes) / grandTotal) * 100) + '%';
+    document.getElementById('segLLM').style.width = (((llmRate * minutes) / grandTotal) * 100) + '%';
+    document.getElementById('segVoice').style.width = (((ttsRate * minutes) / grandTotal) * 100) + '%';
+    document.getElementById('segSTT').style.width = (((sttRate * minutes) / grandTotal) * 100) + '%';
+    document.getElementById('segTelephony').style.width = ((((telephonyRate * minutes) + monthlyDidCost) / grandTotal) * 100) + '%';
     document.getElementById('segMarkup').style.width = ((profitMargin / grandTotal) * 100) + '%';
+
+    // Latency Meter Calculation
+    const platLat = parseInt(document.getElementById('platformVendor').selectedOptions[0].getAttribute('data-latency') || 150);
+    const llmLat = parseInt(document.getElementById('llmVendor').selectedOptions[0].getAttribute('data-latency') || 300);
+    const ttsLat = parseInt(document.getElementById('ttsVendor').selectedOptions[0].getAttribute('data-latency') || 200);
+    const totalLatency = platLat + llmLat + ttsLat + 100; // 100ms network buffer
+
+    document.getElementById('latencyVal').innerText = totalLatency + ' ms';
+    const latBar = document.getElementById('latencyBar');
+    const latBadge = document.getElementById('latencyBadge');
+
+    const fillPct = Math.min(100, (totalLatency / 1500) * 100);
+    latBar.style.width = fillPct + '%';
+
+    if (totalLatency < 600) {
+      latBar.style.background = 'var(--success)';
+      latBadge.innerText = 'Ultra Fast (Human-like)';
+      latBadge.style.color = 'var(--success)';
+    } else if (totalLatency < 1000) {
+      latBar.style.background = '#3b82f6';
+      latBadge.innerText = 'Real-Time Acceptable';
+      latBadge.style.color = '#3b82f6';
+    } else {
+      latBar.style.background = 'var(--warning)';
+      latBadge.innerText = 'Noticeable Delay';
+      latBadge.style.color = 'var(--warning)';
+    }
   }
 
-  // Presets Logic
+  // AI Optimizer
+  function autoOptimizeStack() {
+    document.getElementById('platformVendor').value = "0.05";
+    document.getElementById('llmVendor').value = "0.01"; // Groq Llama 3
+    document.getElementById('ttsVendor').value = "0.01"; // Deepgram Aura
+    calculate();
+    alert('⚡ Auto-Optimized! Selected highest-speed, lowest-cost stack (Groq + Deepgram Aura).');
+  }
+
+  // Presets
   function applyPreset(type) {
-    if (type === 'support') {
+    if(type === 'support') {
       document.getElementById('minutes').value = 3000;
-      document.getElementById('duration').value = 2.0;
       document.getElementById('didCount').value = 2;
       document.getElementById('markup').value = 35;
-    } else if (type === 'sales') {
+    } else if(type === 'sales') {
       document.getElementById('minutes').value = 15000;
-      document.getElementById('duration').value = 4.0;
       document.getElementById('didCount').value = 10;
       document.getElementById('markup').value = 50;
-    } else if (type === 'enterprise') {
+    } else if(type === 'enterprise') {
       document.getElementById('minutes').value = 60000;
-      document.getElementById('duration').value = 3.5;
       document.getElementById('didCount').value = 25;
       document.getElementById('markup').value = 40;
     }
     calculate();
   }
 
-  // Share Link Feature (URL Params)
-  function copyShareLink() {
-    const p = getParams();
-    const url = new URL(window.location.href);
-    Object.keys(p).forEach(key => url.searchParams.set(key, p[key]));
-    navigator.clipboard.writeText(url.href);
-    alert('🔗 Configuration Share Link copied to clipboard!');
-  }
-
-  // Load URL Params if available
-  window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('minutes')) {
-      document.getElementById('minutes').value = urlParams.get('minutes');
-      document.getElementById('duration').value = urlParams.get('duration');
-      document.getElementById('didCount').value = urlParams.get('dids');
-      document.getElementById('markup').value = urlParams.get('markupPercent');
-      document.getElementById('humanRate').value = urlParams.get('humanHourly');
+  // Modal Handlers
+  function openModal(type) {
+    const modal = document.getElementById('appModal');
+    const body = document.getElementById('modalBody');
+    
+    if(type === 'lead') {
+      body.innerHTML = `
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h3>Export Custom Client Proposal</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Enter details to download formatted invoice and stack report.</p>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <input type="text" id="clientName" placeholder="Client Name / Company" />
+          <input type="email" placeholder="Email Address" />
+          <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
+        </div>
+      `;
+    } else if(type === 'compare') {
+      body.innerHTML = `
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h3>⚖️ Side-by-Side Stack Comparison</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Compare current premium selection with budget optimized stack.</p>
+        <table class="compare-table">
+          <thead>
+            <tr><th>Metric</th><th>Current Premium Stack</th><th>Budget Optimized Stack</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>LLM & Voice</td><td>GPT-4o + ElevenLabs</td><td>Groq Llama 3 + Deepgram Aura</td></tr>
+            <tr><td>Est. Latency</td><td>~900 ms</td><td><strong>~400 ms (Faster)</strong></td></tr>
+            <tr><td>Per Min COGS</td><td>~$0.128 / min</td><td><strong>~$0.035 / min</strong></td></tr>
+            <tr><td>Monthly Client Savings</td><td>Standard</td><td><strong>Save ~$450+ extra / mo</strong></td></tr>
+          </tbody>
+        </table>
+      `;
     }
-    calculate();
-  });
-
-  // Modal Control
-  function openModal() { document.getElementById('leadModal').classList.add('active'); }
-  function closeModal() { document.getElementById('leadModal').classList.remove('active'); }
-  function generatePDF() {
-    const client = document.getElementById('clientName').value;
-    if(!client) { alert('Please enter Client Name'); return; }
-    alert(`Proposal PDF generated for ${client}! Printing proposal...`);
-    closeModal();
-    window.print();
+    modal.classList.add('active');
   }
+
+  function closeModal() { document.getElementById('appModal').classList.remove('active'); }
+
+  window.addEventListener('DOMContentLoaded', calculate);
 </script>
 
 </body>

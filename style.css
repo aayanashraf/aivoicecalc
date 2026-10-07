@@ -9,3 +9,4 @@ table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #D5DE
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #E4EBF3;vertical-align:top}th{background:#E8F7F5}
 .btn{display:inline-block;background:#0B7A75;color:#fff;font-weight:700;padding:11px 18px;border-radius:10px;text-decoration:none}.btn:hover{background:#09665F}
 footer{margin-top:48px;padding:24px 0 40px;border-top:1px solid #D5DEEA;font-size:.85rem;color:#51607A}
+footer a{margin-right:2px}ul{padding-left:20px}

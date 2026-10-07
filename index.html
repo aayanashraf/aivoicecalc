@@ -5,18 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Voice Agent Cost Calculator: Vapi vs Retell vs Bland vs Synthflow</title>
 <meta name="description" content="Estimate the monthly cost of an AI voice agent. Compare Vapi, Retell AI, Bland AI and Synthflow with LLM, voice, speech-to-text and telephony fees broken out.">
-<link rel="canonical" href="https://aivoicecalc.com/">
+<link rel="canonical" href="https://YOUR-DOMAIN.com/">
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#0B7A75"><link rel="apple-touch-icon" href="/icon-192.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B7A75'/%3E%3Ctext x='16' y='22' font-size='15' font-family='Arial' font-weight='700' fill='white' text-anchor='middle'%3EAV%3C/text%3E%3C/svg%3E">
 <meta property="og:title" content="AI Voice Agent Cost Calculator">
 <meta property="og:description" content="Compare Vapi, Retell, Bland and Synthflow per-minute costs in seconds.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://aivoicecalc.com/">
+<meta property="og:url" content="https://YOUR-DOMAIN.com/">
 <meta name="twitter:card" content="summary">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"AI Voice Calc","url":"https://aivoicecalc.com/","applicationCategory":"BusinessApplication","operatingSystem":"Any","description":"Free calculator comparing AI voice agent and telephony costs across Vapi, Retell AI, Bland AI and Synthflow.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+{"@context":"https://schema.org","@type":"WebApplication","name":"AI Voice Calc","url":"https://YOUR-DOMAIN.com/","applicationCategory":"BusinessApplication","operatingSystem":"Any","description":"Free calculator comparing AI voice agent and telephony costs across Vapi, Retell AI, Bland AI and Synthflow.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -30,7 +28,7 @@
 :root{--bg:#F4F7FB;--ink:#10213A;--muted:#51607A;--card:#fff;--line:#D5DEEA;--accent:#0B7A75;--accent-soft:#E8F7F5;--warn:#9A5B00}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:Manrope,system-ui,sans-serif;color:var(--ink);line-height:1.55;background:linear-gradient(180deg,#DCE9F6 0,var(--bg) 460px) no-repeat,var(--bg)}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:var(--ink);line-height:1.55;background:linear-gradient(180deg,#DCE9F6 0,var(--bg) 460px) no-repeat,var(--bg)}
 a{color:var(--accent)}
 :focus-visible{outline:3px solid #2B6CB0;outline-offset:2px}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
@@ -104,6 +102,8 @@ footer p{margin:4px 0}
       <button data-cur="USD" aria-pressed="true">$ USD</button>
       <button data-cur="EUR" aria-pressed="false">€ EUR</button>
       <button data-cur="GBP" aria-pressed="false">£ GBP</button>
+      <button data-cur="PKR" aria-pressed="false">Rs PKR</button>
+      <button data-cur="INR" aria-pressed="false">₹ INR</button>
     </div>
   </div>
 </header>
@@ -134,17 +134,26 @@ footer p{margin:4px 0}
 
   <div class="head">
     <h2 id="results">Provider comparison</h2>
-    <button id="copy" class="btn ghost">Copy summary</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="copy" class="btn ghost">Copy summary</button><button id="csv" class="btn ghost">Download CSV</button><a id="pro" class="btn" href="#">Pro waitlist</a></div>
   </div>
   <div id="cards"></div>
   <p id="live" class="sr" aria-live="polite"></p>
   <p class="disc">Some links on this page are affiliate links. We may earn a commission at no extra cost to you. We are not affiliated with Vapi, Retell AI, Bland AI or Synthflow. Estimates assume typical public pricing and an average usage load per minute.</p>
 
+  <p class="note">Your numbers are saved in this browser only. Pro (planned): PDF client reports, custom provider rates and saved scenarios. Join the waitlist.</p>
   <section id="stats" aria-label="Key numbers"></section>
 
   <section class="guide">
+    <h2>Who this calculator is for</h2>
+    <p>Agencies pricing voice agents for clients, founders choosing a platform, and teams moving from a pilot to real call volume. Appointment booking usually means short calls, support lines mean medium calls, and outbound sales means many calls with a few minutes each. Enter your own call length to see how each shape changes the bill.</p>
+    <h2 style="margin-top:28px">Five ways to cut voice agent cost</h2>
+    <ul><li>Use a smaller language model for simple tasks such as booking.</li><li>Test cheaper voice engines on your own script before you commit.</li><li>Keep prompts short. Long prompts raise LLM cost on every turn.</li><li>End calls quickly when the goal is met.</li><li>Ask providers for committed-volume pricing once you pass a steady monthly volume.</li></ul>
+    <p>Read more: <a href="/ai-voice-agent-cost-per-minute.html">AI voice agent cost per minute</a> and <a href="/vapi-vs-retell.html">Vapi vs Retell</a>.</p>
+  </section>
+
+  <section class="guide">
     <h2>How the estimate works</h2>
-    <p>Most platforms advertise one platform fee. A real call also pays for speech-to-text, a language model, a voice engine and phone minutes. Vapi and Retell bill these separately, so the calculator adds them up. Bland and Synthflow bundle more of the stack, so the calculator treats their rates differently. Per-call cost is your monthly total divided by calls.</p>
+    <p>Most platforms advertise one platform fee. A real call also pays for speech-to-text, a language model, a voice engine and phone minutes. Vapi and Retell bill these separately, so the calculator adds them up. Bland and Synthflow bundle more of the stack, so the calculator treats their rates differently. Per-call cost is your monthly total divided by calls. For a closer look, read <a href="/vapi-vs-retell.html">Vapi vs Retell</a>.</p>
   </section>
 
   <section class="guide" aria-labelledby="faq">
@@ -157,8 +166,8 @@ footer p{margin:4px 0}
 </main>
 
 <footer>
-  <p>© <span id="yr"></span> aivoicecalc.com</p>
-  <p><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+  <p>© <span id="yr"></span> YOUR-DOMAIN.com</p>
+  <p><a href="/">Calculator</a> · <a href="/vapi-vs-retell.html">Vapi vs Retell</a> · <a href="/ai-voice-agent-cost-per-minute.html">Cost per minute</a> · <a href="/about.html">About</a> · <a href="/contact.html">Contact</a> · <a href="/disclaimer.html">Disclaimer</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
 </footer>
 </div>
 
@@ -175,7 +184,7 @@ footer p{margin:4px 0}
     {id:'bland',n:'Bland AI',flat:.12,note:'One all-in rate: LLM, voice, speech-to-text and telephony included.',page:'https://www.bland.ai/pricing'},
     {id:'synth',n:'Synthflow',plat:.08,stt:0,tel:.014,base:29,approx:true,page:'https://synthflow.ai/pricing'}
   ];
-  var RATE={USD:1,EUR:.92,GBP:.79},SYM={USD:'$',EUR:'€',GBP:'£'}; // approximate exchange rates
+  var RATE={USD:1,EUR:.92,GBP:.79,PKR:280,INR:88},SYM={USD:'$',EUR:'€',GBP:'£',PKR:'Rs ',INR:'₹'}; // approximate exchange rates
   var K=1,PL='/mo',cur='USD',$=function(i){return document.getElementById(i)};
   var minEl=$('minutes'),durEl=$('duration'),callsEl=$('calls');
 
@@ -194,6 +203,7 @@ footer p{margin:4px 0}
     });
   }
   function render(){
+    try{localStorage.setItem('avc',JSON.stringify({m:minEl.value,d:durEl.value,l:$('llm').value,v:$('voice').value}))}catch(e){}
     var m=+minEl.value,calls=+callsEl.value||1;
     $('minOut').textContent=m.toLocaleString('en-US')+' min';
     var res=calc(),totals=res.map(function(r){return r.total}),min=Math.min.apply(null,totals),worst=Math.max.apply(null,totals);
@@ -233,12 +243,21 @@ footer p{margin:4px 0}
   $('copy').addEventListener('click',function(){
     var res=calc().sort(function(a,b){return a.total-b.total}),btn=$('copy');
     var t='AI Voice Agent Cost Estimate\n'+(+minEl.value).toLocaleString('en-US')+' min/month · '+(+callsEl.value).toLocaleString('en-US')+' calls · '+durEl.value+'s average\nLLM: '+LLM[$('llm').value].n+' | Voice: '+VOICE[$('voice').value].n+' | Currency: '+cur+'\n\n'+
-      res.map(function(r){return r.p.n+': '+fmt(r.total*K)+' '+PL+' ('+fmt(r.perMin)+'/min)'}).join('\n')+'\n\nEstimates only. Source: aivoicecalc.com';
+      res.map(function(r){return r.p.n+': '+fmt(r.total*K)+' '+PL+' ('+fmt(r.perMin)+'/min)'}).join('\n')+'\n\nEstimates only. Source: YOUR-DOMAIN.com';
     function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy summary'},1800)}
     function fallback(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}ta.remove();done()}
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback)}else{fallback()}
   });
   $('yr').textContent=new Date().getFullYear();
+  var PRO='';
+  $('pro').href=PRO||'mailto:YOUR-EMAIL@example.com?subject=Pro%20waitlist';
+  $('csv').addEventListener('click',function(){
+    var rows=[['Provider','Total '+PL,'Per minute (USD)']].concat(calc().map(function(r){return [r.p.n,(r.total*K*RATE[cur]).toFixed(2)+' '+cur,r.perMin.toFixed(4)]}));
+    var b=new Blob([rows.map(function(r){return r.join(',')}).join('\n')],{type:'text/csv'}),a=document.createElement('a');
+    a.href=URL.createObjectURL(b);a.download='voice-agent-costs.csv';document.body.appendChild(a);a.click();a.remove();
+  });
+  try{var sv=JSON.parse(localStorage.getItem('avc')||'null');if(sv){minEl.value=sv.m;durEl.value=sv.d;$('llm').value=sv.l;$('voice').value=sv.v}}catch(e){}
+  if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
   fromMinutes();
 })();
 </script>

@@ -27,3 +27,49 @@ body {
     color: #60a5fa !important;
     text-decoration: underline !important;
 }
+
+/* Next-Gen Ultra-Modern AI Voice Calculator Theme (Behtar aur Unique) */
+:root {
+    --bg-main: #05050a;
+    --card-bg: rgba(17, 24, 39, 0.75);
+    --border-glow: rgba(56, 189, 248, 0.25);
+    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #38bdf8 100%);
+}
+
+body {
+    background-color: var(--bg-main) !important;
+    color: #f8fafc !important;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Glassmorphic Cards & Sections */
+section, .competitors-section, .card, div[class*="card"] {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glow) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7) !important;
+    transition: all 0.3s ease;
+}
+
+section:hover, .competitors-section:hover {
+    border-color: rgba(56, 189, 248, 0.5) !important;
+    box-shadow: 0 25px 50px -12px rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Stylish Glowing Buttons */
+button, .btn {
+    background: var(--accent-gradient) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(56, 189, 248, 0.6);
+}

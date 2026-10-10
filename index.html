@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -127,9 +127,12 @@
   </style>
 </head>
 <body>
+    
 
 <div class="container">
   <header>
+    <a href="/" class="logo-flex" style="display:flex; align-items:center; gap:10px; text-decoration:none;"><img src="logo.svg" width="36" height="36" alt="Logo"/><span style="font-weight:bold; color:#fff; font-size:20px;">AI Voice<span style="color:#38BDF8">Calc</span></span></a>
+    
     <div>
       <h1>AI Voice Agent Cost Engine</h1>
       <p>Infrastructure costs, latency benchmarks, stack comparison, & client ROI</p>
@@ -140,11 +143,11 @@
       <span style="font-size: 0.85rem; color: var(--text-muted);">Currency:</span>
       <select id="currency" onchange="calculate()">
         <option value="USD" data-symbol="$" data-rate="1" selected>USD ($)</option>
-        <option value="EUR" data-symbol="€" data-rate="0.92">EUR (€)</option>
-        <option value="GBP" data-symbol="£" data-rate="0.78">GBP (£)</option>
-        <option value="SAR" data-symbol="﷼" data-rate="3.75">SAR (﷼)</option>
-        <option value="AED" data-symbol="د.إ" data-rate="3.67">AED (د.إ)</option>
-        <option value="INR" data-symbol="₹" data-rate="83.5">INR (₹)</option>
+        <option value="EUR" data-symbol="â‚¬" data-rate="0.92">EUR (â‚¬)</option>
+        <option value="GBP" data-symbol="Â£" data-rate="0.78">GBP (Â£)</option>
+        <option value="SAR" data-symbol="ï·¼" data-rate="3.75">SAR (ï·¼)</option>
+        <option value="AED" data-symbol="Ø¯.Ø¥" data-rate="3.67">AED (Ø¯.Ø¥)</option>
+        <option value="INR" data-symbol="â‚¹" data-rate="83.5">INR (â‚¹)</option>
       </select>
     </div>
   </header>
@@ -152,11 +155,11 @@
   <!-- Toolbar & Smart AI Optimizer -->
   <div class="toolbar">
     <div class="preset-group">
-      <button class="preset-btn" onclick="applyPreset('support')">🎧 Support Hotline</button>
-      <button class="preset-btn" onclick="applyPreset('sales')">📞 Outbound Sales</button>
-      <button class="preset-btn" onclick="applyPreset('enterprise')">🏢 Enterprise Center</button>
+      <button class="preset-btn" onclick="applyPreset('support')">ðŸŽ§ Support Hotline</button>
+      <button class="preset-btn" onclick="applyPreset('sales')">ðŸ“ž Outbound Sales</button>
+      <button class="preset-btn" onclick="applyPreset('enterprise')">ðŸ¢ Enterprise Center</button>
     </div>
-    <button class="preset-btn optimizer-btn" onclick="autoOptimizeStack()">⚡ Auto-Optimize Stack (Lowest Cost)</button>
+    <button class="preset-btn optimizer-btn" onclick="autoOptimizeStack()">âš¡ Auto-Optimize Stack (Lowest Cost)</button>
   </div>
 
   <div class="calculator-grid">
@@ -238,7 +241,7 @@
       <!-- Latency Speed Benchmark Meter -->
       <div class="latency-box">
         <div class="latency-header">
-          <span>⚡ Est. Response Latency: <strong id="latencyVal" style="color: #38bdf8;">850 ms</strong></span>
+          <span>âš¡ Est. Response Latency: <strong id="latencyVal" style="color: #38bdf8;">850 ms</strong></span>
           <span id="latencyBadge" style="color: var(--success); font-weight: bold;">Real-Time</span>
         </div>
         <div class="latency-bar-bg">
@@ -282,8 +285,8 @@
       </div>
 
       <div class="action-btns">
-        <button class="btn btn-primary" onclick="openModal('lead')">📄 Export Proposal PDF</button>
-        <button class="btn btn-secondary" onclick="openModal('compare')">⚖️ Compare Stacks</button>
+        <button class="btn btn-primary" onclick="openModal('lead')">ðŸ“„ Export Proposal PDF</button>
+        <button class="btn btn-secondary" onclick="openModal('compare')">âš–ï¸ Compare Stacks</button>
       </div>
     </div>
 
@@ -416,7 +419,7 @@
     document.getElementById('llmVendor').value = "0.01";
     document.getElementById('ttsVendor').value = "0.01";
     calculate();
-    alert('⚡ Auto-Optimized! Selected highest-speed, lowest-cost stack (Groq + Deepgram Aura).');
+    alert('âš¡ Auto-Optimized! Selected highest-speed, lowest-cost stack (Groq + Deepgram Aura).');
   }
 
   function applyPreset(type) {
@@ -454,7 +457,7 @@
     } else if(type === 'compare') {
       body.innerHTML = `
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h3>⚖️ Side-by-Side Stack Comparison</h3>
+        <h3>âš–ï¸ Side-by-Side Stack Comparison</h3>
         <p style="font-size:0.85rem; color:var(--text-muted);">Compare current premium selection with budget optimized stack.</p>
         <table class="compare-table">
           <thead>
@@ -479,3 +482,4 @@
 
 </body>
 </html>
+

@@ -1,488 +1,276 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Voice Agent Cost & ROI Calculator | Ultra Agency Engine</title>
-  <meta name="description" content="Ultimate AI Voice Agent infrastructure, stack comparison, latency estimator, and agency pricing engine." />
-  
-  <!-- Open Graph / Social Sharing Meta Tags (WhatsApp, LinkedIn, Twitter Previews) -->
-  <meta property="og:title" content="AI Voice Agent Cost & ROI Calculator" />
-  <meta property="og:description" content="Calculate infrastructure costs, custom vendor stacks, agency profit markup, and client ROI instantly." />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AI Voice Agent Cost & ROI Calculator" />
-  <meta name="twitter:description" content="Calculate infrastructure costs, vendor stacks, and client ROI instantly." />
-
-  <!-- Vercel Analytics Hook (Enable inside Vercel Dashboard for traffic tracking) -->
-  <script defer src="/_vercel/insights/script.js"></script>
-
-  <style>
-    :root {
-      --bg-dark: #0f172a;
-      --card-bg: #1e293b;
-      --accent: #6366f1;
-      --accent-hover: #4f46e5;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border: #334155;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
-    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; padding: 20px; }
-    .container { max-width: 1250px; margin: 0 auto; }
-    
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
-    header h1 { font-size: 2rem; font-weight: 700; color: #fff; }
-    header p { color: var(--text-muted); font-size: 0.95rem; }
-
-    .currency-selector { display: flex; align-items: center; gap: 8px; background: var(--card-bg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; }
-    .currency-selector select { background: transparent; border: none; color: #fff; font-weight: 600; cursor: pointer; outline: none; }
-
-    /* Presets & Optimizer Bar */
-    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; background: #182234; padding: 12px; border-radius: 10px; border: 1px solid var(--border); }
-    .preset-group { display: flex; gap: 8px; flex-wrap: wrap; }
-    .preset-btn { background: #334155; border: 1px solid var(--border); color: #fff; padding: 7px 14px; border-radius: 20px; cursor: pointer; font-size: 0.82rem; transition: 0.2s; }
-    .preset-btn:hover { background: var(--accent); border-color: var(--accent); }
-    .optimizer-btn { background: linear-gradient(135deg, #10b981, #059669); font-weight: 600; border: none; }
-
-    /* Main Grid */
-    .calculator-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; }
-    @media (max-width: 950px) { .calculator-grid { grid-template-columns: 1fr; } }
-
-    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
-    .card h2 { font-size: 1.15rem; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; color: #60a5fa; display: flex; justify-content: space-between; align-items: center; }
-
-    .input-group { margin-bottom: 16px; }
-    .input-group label { display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 500; margin-bottom: 5px; }
-    .input-group span.val { color: #38bdf8; font-weight: 600; }
-    
-    input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
-    select, input[type="number"], input[type="text"], input[type="email"] { width: 100%; padding: 9px; background: #0f172a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.88rem; }
-
-    .radio-toggle { display: flex; gap: 10px; }
-    .radio-toggle label { flex: 1; text-align: center; background: #0f172a; padding: 8px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.82rem; }
-    .radio-toggle input { display: none; }
-    .radio-toggle input:checked + span { color: #38bdf8; font-weight: bold; }
-
-    /* Results Card */
-    .results-card { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #3b82f6; }
-    
-    .big-stat { text-align: center; margin-bottom: 18px; background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid var(--border); }
-    .big-stat .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .big-stat .amount { font-size: 2.1rem; font-weight: 800; color: #34d399; margin: 4px 0; }
-    .big-stat .subtext { font-size: 0.78rem; color: #a7f3d0; }
-
-    /* Latency Meter */
-    .latency-box { background: #0f172a; border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin-bottom: 18px; }
-    .latency-header { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 6px; }
-    .latency-bar-bg { width: 100%; height: 8px; background: #334155; border-radius: 4px; overflow: hidden; }
-    .latency-bar-fill { height: 100%; width: 40%; background: var(--success); transition: 0.3s; }
-
-    /* Cost Stack Bar */
-    .stack-container { margin: 18px 0; }
-    .stack-title { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
-    .stack-bar { display: flex; height: 16px; border-radius: 8px; overflow: hidden; background: #0f172a; }
-    .stack-seg { height: 100%; transition: width 0.3s ease; }
-    .seg-platform { background: #6366f1; }
-    .seg-llm { background: #3b82f6; }
-    .seg-voice { background: #ec4899; }
-    .seg-stt { background: #eab308; }
-    .seg-telephony { background: #10b981; }
-    .seg-markup { background: #f97316; }
-
-    .breakdown-list { margin-top: 12px; font-size: 0.85rem; }
-    .breakdown-item { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed var(--border); }
-
-    /* Actions & Comparison */
-    .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
-    .btn { padding: 10px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; transition: 0.2s; font-size: 0.85rem; }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-hover); }
-    .btn-secondary { background: #334155; color: #fff; }
-
-    /* FAQ Section */
-    .faq-section { margin-top: 40px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-    .faq-section h3 { font-size: 1.2rem; color: #60a5fa; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 800px) { .faq-grid { grid-template-columns: 1fr; } }
-    .faq-item h4 { font-size: 0.92rem; color: #fff; margin-bottom: 5px; }
-    .faq-item p { font-size: 0.82rem; color: var(--text-muted); }
-
-    /* Comparison Table Modal */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-    .modal.active { display: flex; }
-    .modal-content { background: var(--card-bg); border: 1px solid var(--border); width: 100%; max-width: 650px; border-radius: 12px; padding: 24px; position: relative; max-height: 90vh; overflow-y: auto; }
-    .close-modal { position: absolute; right: 15px; top: 15px; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; }
-
-    table.compare-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
-    table.compare-table th, table.compare-table td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
-    table.compare-table th { background: #0f172a; color: #60a5fa; }
-
-    footer { margin-top: 30px; text-align: center; border-top: 1px solid var(--border); padding-top: 18px; color: var(--text-muted); font-size: 0.78rem; }
-    footer a { color: #60a5fa; text-decoration: none; margin: 0 6px; }
-  </style>
-  <link rel="icon" type="image/svg+xml" href="logo.svg" />    <link rel="stylesheet" href="style.css?v=2" /></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice Cost Calculator | Enterprise Infrastructure Estimator</title>
+    <meta name="description" content="Accurately estimate end-to-end voice AI agent expenses across STT, LLM, TTS, and Telephony orchestrators.">
+    <link rel="icon" type="image/svg+xml" href="logo.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=60" />
+</head>
 <body>
-    
 
-<div class="container">
-  <header>
-    <a href="/" class="logo-flex" style="display:flex; align-items:center; gap:10px; text-decoration:none;"><img src="logo.svg" width="36" height="36" alt="Logo"/><span style="font-weight:bold; color:#fff; font-size:20px;">AI Voice<span style="color:#38BDF8">Calc</span></span></a>
-    
-    <div>
-      <h1>AI Voice Agent Cost Engine</h1>
-      <p>Infrastructure costs, latency benchmarks, stack comparison, & client ROI</p>
-    </div>
-    
-    <!-- Currency Switcher -->
-    <div class="currency-selector">
-      <span style="font-size: 0.85rem; color: var(--text-muted);">Currency:</span>
-      <select id="currency" onchange="calculate()">
-        <option value="USD" data-symbol="$" data-rate="1" selected>USD ($)</option>
-        <option value="EUR" data-symbol="â‚¬" data-rate="0.92">EUR (â‚¬)</option>
-        <option value="GBP" data-symbol="Â£" data-rate="0.78">GBP (Â£)</option>
-        <option value="SAR" data-symbol="ï·¼" data-rate="3.75">SAR (ï·¼)</option>
-        <option value="AED" data-symbol="Ø¯.Ø¥" data-rate="3.67">AED (Ø¯.Ø¥)</option>
-        <option value="INR" data-symbol="â‚¹" data-rate="83.5">INR (â‚¹)</option>
-      </select>
-    </div>
-  </header>
-
-  <!-- Toolbar & Smart AI Optimizer -->
-  <div class="toolbar">
-    <div class="preset-group">
-      <button class="preset-btn" onclick="applyPreset('support')">ðŸŽ§ Support Hotline</button>
-      <button class="preset-btn" onclick="applyPreset('sales')">ðŸ“ž Outbound Sales</button>
-      <button class="preset-btn" onclick="applyPreset('enterprise')">ðŸ¢ Enterprise Center</button>
-    </div>
-    <button class="preset-btn optimizer-btn" onclick="autoOptimizeStack()">âš¡ Auto-Optimize Stack (Lowest Cost)</button>
-  </div>
-
-  <div class="calculator-grid">
-    
-    <!-- Left Column: Inputs -->
-    <div class="card">
-      <h2>1. Call Volume & Telephony Setup</h2>
-      
-      <div class="input-group">
-        <label>Monthly Call Minutes: <span class="val" id="minVal">5,000</span></label>
-        <input type="range" id="minutes" min="500" max="100000" step="500" value="5000" oninput="calculate()">
-      </div>
-
-      <div class="input-group">
-        <label>Telephony Direction & AMD</label>
-        <div class="radio-toggle">
-          <label><input type="radio" name="direction" value="inbound" checked onchange="calculate()"> <span>Inbound ($0.0085/m)</span></label>
-          <label><input type="radio" name="direction" value="outbound" onchange="calculate()"> <span>Outbound + AMD ($0.014/m)</span></label>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo-flex">
+                <img src="logo.svg" width="32" height="32" alt="Logo"/>
+                <span class="logo-text">AI Voice<span class="highlight">Calc</span></span>
+            </a>
+            <div class="nav-actions">
+                <span class="badge">v2.0 Enterprise</span>
+            </div>
         </div>
-      </div>
+    </header>
 
-      <div class="input-group">
-        <label>Dedicated Phone Numbers (DIDs): <span class="val" id="didVal">5</span></label>
-        <input type="range" id="didCount" min="1" max="50" step="1" value="5" oninput="calculate()">
-      </div>
-
-      <h2>2. Tech Stack Granularity</h2>
-
-      <div class="input-group">
-        <label>Voice Platform Engine</label>
-        <select id="platformVendor" onchange="calculate()">
-          <option value="0.05" data-latency="150">Vapi / Retell Standard ($0.05 / min)</option>
-          <option value="0.09" data-latency="120">Bland AI Enterprise ($0.09 / min)</option>
-          <option value="0.00" data-latency="250">Custom OpenSource Framework ($0.00 / min)</option>
-        </select>
-      </div>
-
-      <div class="input-group">
-        <label>LLM Brain Model</label>
-        <select id="llmVendor" onchange="calculate()">
-          <option value="0.01" data-latency="200">Groq Llama 3.3 / DeepSeek V3 (~$0.01 / min)</option>
-          <option value="0.02" data-latency="350">OpenAI GPT-4o-mini (~$0.02 / min)</option>
-          <option value="0.06" data-latency="600" selected>OpenAI GPT-4o / Claude 3.5 Sonnet (~$0.06 / min)</option>
-        </select>
-      </div>
-
-      <div class="input-group">
-        <label>Voice Synthesis (TTS)</label>
-        <select id="ttsVendor" onchange="calculate()">
-          <option value="0.04" data-latency="300" selected>ElevenLabs Turbo v2 ($0.04 / min)</option>
-          <option value="0.02" data-latency="180">Cartesia Sonic ($0.02 / min)</option>
-          <option value="0.01" data-latency="150">Deepgram Aura ($0.01 / min)</option>
-        </select>
-      </div>
-
-      <h2>3. Agency Retainer & Setup Fee</h2>
-
-      <div class="input-group">
-        <label>One-Time Client Setup / Onboarding Fee: <span class="val" id="setupFeeVal">$1,500</span></label>
-        <input type="range" id="setupFee" min="0" max="5000" step="250" value="1500" oninput="calculate()">
-      </div>
-
-      <div class="input-group">
-        <label>Agency Profit Markup (%): <span class="val" id="markupVal">40%</span></label>
-        <input type="range" id="markup" min="0" max="150" step="5" value="40" oninput="calculate()">
-      </div>
-    </div>
-
-    <!-- Right Column: Results & Latency Benchmark -->
-    <div class="card results-card">
-      <h2>Client Invoice & Latency Metrics</h2>
-
-      <div class="big-stat">
-        <div class="label">Monthly Billed Retainer</div>
-        <div class="amount" id="clientTotal">$0</div>
-        <div class="subtext" id="firstMonthInvoice">First Month Total (Inc. Setup): $0</div>
-      </div>
-
-      <!-- Latency Speed Benchmark Meter -->
-      <div class="latency-box">
-        <div class="latency-header">
-          <span>âš¡ Est. Response Latency: <strong id="latencyVal" style="color: #38bdf8;">850 ms</strong></span>
-          <span id="latencyBadge" style="color: var(--success); font-weight: bold;">Real-Time</span>
+    <main class="main-wrapper">
+        <div class="hero-section">
+            <span class="hero-pill">⚡ Real-Time Voice Agent Cost Engine</span>
+            <h1>Comprehensive Voice AI <br><span class="gradient-text">Cost Calculator</span></h1>
+            <p>Model end-to-end operational expenses across Speech-to-Text, LLM Reasoning, Text-to-Speech, and Telephony orchestrators.</p>
         </div>
-        <div class="latency-bar-bg">
-          <div id="latencyBar" class="latency-bar-fill"></div>
+
+        <!-- Quick Volume Presets -->
+        <div class="presets-bar">
+            <span class="preset-label">Quick Presets:</span>
+            <button class="preset-btn" onclick="applyPreset(100, 2)">Light (100 calls/day)</button>
+            <button class="preset-btn" onclick="applyPreset(500, 3.5)">Growth (500 calls/day)</button>
+            <button class="preset-btn" onclick="applyPreset(2500, 5)">Scale (2,500 calls/day)</button>
+            <button class="preset-btn" onclick="applyPreset(10000, 5)">Enterprise (10k calls/day)</button>
         </div>
-      </div>
 
-      <!-- Visual Cost Stack -->
-      <div class="stack-container">
-        <div class="stack-title">
-          <span>Cost Stack Breakdown (%)</span>
-          <span id="tierDiscountLabel" style="color: var(--success); font-weight: 600;">Standard Tier</span>
+        <div class="calculator-grid">
+            <!-- Left Panel: Controls -->
+            <div class="calc-panel">
+                <h2 class="panel-title">1. Usage Parameters</h2>
+                
+                <div class="input-field">
+                    <div class="label-row">
+                        <label for="callsPerDay">Daily Call Volume</label>
+                        <span class="field-val" id="callsVal">500 calls/day</span>
+                    </div>
+                    <input type="range" id="callsPerDay" min="50" max="15000" step="50" value="500">
+                </div>
+
+                <div class="input-field">
+                    <div class="label-row">
+                        <label for="avgDuration">Avg Call Duration (Minutes)</label>
+                        <span class="field-val" id="durationVal">3.5 min</span>
+                    </div>
+                    <input type="range" id="avgDuration" min="0.5" max="15" step="0.5" value="3.5">
+                </div>
+
+                <h2 class="panel-title" style="margin-top: 28px;">2. Stack Configuration</h2>
+                
+                <div class="input-field">
+                    <label>Speech-To-Text (STT)</label>
+                    <select id="sttSelect">
+                        <option value="0.0043">Deepgram Nova-2 (.0043/min)</option>
+                        <option value="0.0060">Whisper Large v3 (.0060/min)</option>
+                        <option value="0.0045">AssemblyAI Conformer-2 (.0045/min)</option>
+                    </select>
+                </div>
+
+                <div class="input-field">
+                    <label>Intelligence / LLM Engine</label>
+                    <select id="llmSelect">
+                        <option value="0.015">GPT-4o mini (~.015/min)</option>
+                        <option value="0.060">GPT-4o Realtime API (~.060/min)</option>
+                        <option value="0.020">Claude 3.5 Haiku (~.020/min)</option>
+                    </select>
+                </div>
+
+                <div class="input-field">
+                    <label>Text-To-Speech (TTS)</label>
+                    <select id="ttsSelect">
+                        <option value="0.030">ElevenLabs Turbo v2.5 (.030/min)</option>
+                        <option value="0.015">Cartesia Sonic (.015/min)</option>
+                        <option value="0.020">PlayHT 2.0 (.020/min)</option>
+                    </select>
+                </div>
+
+                <div class="input-field">
+                    <label>Orchestration & Telephony</label>
+                    <select id="telephonySelect">
+                        <option value="0.050">Vapi Orchestration + Twilio SIP (.050/min)</option>
+                        <option value="0.080">Retell AI All-In-One (.080/min)</option>
+                        <option value="0.014">Twilio Direct SIP Only (.014/min)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Right Panel: Results & Cost Breakdown -->
+            <div class="results-panel">
+                <h2 class="panel-title">Monthly Cost Estimate</h2>
+                
+                <div class="total-card">
+                    <span class="total-label">Estimated Monthly Expense</span>
+                    <div class="total-amount" id="totalMonthly">.00</div>
+                    <span class="total-sub" id="totalMinutes">0 Total Minutes Included</span>
+                </div>
+
+                <div class="breakdown-list">
+                    <div class="breakdown-item">
+                        <span>Speech-To-Text (STT)</span>
+                        <strong id="sttCost">.00</strong>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>LLM Reasoning</span>
+                        <strong id="llmCost">.00</strong>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Text-To-Speech (TTS)</span>
+                        <strong id="ttsCost">.00</strong>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Orchestration / Telephony</span>
+                        <strong id="telephonyCost">.00</strong>
+                    </div>
+                </div>
+
+                <div class="summary-pills">
+                    <div class="pill-box">
+                        <span>Effective Rate</span>
+                        <strong id="effectiveRate">.00 / min</strong>
+                    </div>
+                    <div class="pill-box">
+                        <span>Annual Projection</span>
+                        <strong id="annualCost">.00 / yr</strong>
+                    </div>
+                </div>
+
+                <div class="action-buttons-group">
+                    <button class="action-btn secondary-btn" onclick="copyReport()">📋 Copy Breakdown</button>
+                    <button class="action-btn primary-btn" onclick="downloadReport()">📥 Export Report</button>
+                </div>
+            </div>
         </div>
-        <div class="stack-bar">
-          <div id="segPlatform" class="stack-seg seg-platform" style="width: 20%;"></div>
-          <div id="segLLM" class="stack-seg seg-llm" style="width: 20%;"></div>
-          <div id="segVoice" class="stack-seg seg-voice" style="width: 20%;"></div>
-          <div id="segSTT" class="stack-seg seg-stt" style="width: 10%;"></div>
-          <div id="segTelephony" class="stack-seg seg-telephony" style="width: 10%;"></div>
-          <div id="segMarkup" class="stack-seg seg-markup" style="width: 20%;"></div>
-        </div>
-      </div>
 
-      <div class="breakdown-list">
-        <div class="breakdown-item">
-          <span>Infrastructure COGS (Monthly)</span>
-          <strong id="cogsCost">$0</strong>
-        </div>
-        <div class="breakdown-item" style="color: #f97316;">
-          <span>Agency Monthly Gross Profit</span>
-          <strong id="agencyProfit">$0</strong>
-        </div>
-        <div class="breakdown-item">
-          <span>Equivalent Human Staff Cost</span>
-          <strong id="humanCost">$0</strong>
-        </div>
-        <div class="breakdown-item" style="color: var(--success); font-weight: 700;">
-          <span>Client Net Monthly Savings</span>
-          <strong id="netSavings">$0</strong>
-        </div>
-      </div>
+        <section class="competitors-section">
+            <h3>Industry Benchmarks</h3>
+            <p>Cross-reference our calculations with existing benchmark calculators across the web:</p>
+            <div class="benchmarks-grid">
+                <a href="https://www.raftlabs.com/tools/voice-ai-calculator" target="_blank" class="benchmark-link">
+                    <span>RaftLabs Voice Calculator</span>
+                    <span class="arrow">↗</span>
+                </a>
+                <a href="https://artificialanalysis.ai/microevals/voice-ai-agent-pricing-calculator-1751958673133" target="_blank" class="benchmark-link">
+                    <span>Artificial Analysis Pricing</span>
+                    <span class="arrow">↗</span>
+                </a>
+                <a href="https://aipricing.org/ai-voice-agent-cost-calculator" target="_blank" class="benchmark-link">
+                    <span>AI Pricing Org</span>
+                    <span class="arrow">↗</span>
+                </a>
+                <a href="https://comparevoiceai.com/" target="_blank" class="benchmark-link">
+                    <span>Compare Voice AI</span>
+                    <span class="arrow">↗</span>
+                </a>
+            </div>
+        </section>
+    </main>
 
-      <div class="action-btns">
-        <button class="btn btn-primary" onclick="openModal('lead')">ðŸ“„ Export Proposal PDF</button>
-        <button class="btn btn-secondary" onclick="openModal('compare')">âš–ï¸ Compare Stacks</button>
-      </div>
-    </div>
+    <footer>
+        <p>© 2026 AI Voice Cost Calculator. Designed for Modern Developers & Enterprise Teams.</p>
+    </footer>
 
-  </div>
+    <script>
+        let currentCalculations = {};
 
-  <!-- FAQ Section for Extra Engagement & SEO -->
-  <div class="faq-section">
-    <h3>Frequently Asked Questions</h3>
-    <div class="faq-grid">
-      <div class="faq-item">
-        <h4>How is Infrastructure COGS calculated?</h4>
-        <p>COGS aggregates per-minute pricing from your chosen voice platform (Vapi/Retell), LLM (OpenAI/Groq), Text-to-Speech (ElevenLabs/Cartesia), STT, and telecom carrier trunking fees.</p>
-      </div>
-      <div class="faq-item">
-        <h4>What is a healthy agency profit markup?</h4>
-        <p>Most AI Automation Agencies (AAAs) target a 35% to 50% profit margin on top of raw infrastructure costs, alongside a one-time onboarding setup fee.</p>
-      </div>
-      <div class="faq-item">
-        <h4>Why does voice latency matter?</h4>
-        <p>Conversational latency under 600ms feels completely human-like. Higher latencies create awkward pauses during phone calls, affecting client conversion rates.</p>
-      </div>
-      <div class="faq-item">
-        <h4>Can I use this for multi-currency invoicing?</h4>
-        <p>Yes! Use the currency dropdown at the top right to instantly convert all estimates into USD, EUR, GBP, SAR, AED, or INR.</p>
-      </div>
-    </div>
-  </div>
+        function calculate() {
+            const calls = parseFloat(document.getElementById('callsPerDay').value);
+            const duration = parseFloat(document.getElementById('avgDuration').value);
+            
+            document.getElementById('callsVal').innerText = calls.toLocaleString() + ' calls/day';
+            document.getElementById('durationVal').innerText = duration + ' min';
 
-  <footer>
-    <p>Last verified provider rate updates: October 2026 | <a href="mailto:support@aivoicecalc.vercel.app">Report Outdated Rates</a> | <a href="#">Terms & Privacy</a></p>
-  </footer>
-</div>
+            const totalMins = calls * duration * 30; // 30 days
+            
+            const sttRate = parseFloat(document.getElementById('sttSelect').value);
+            const llmRate = parseFloat(document.getElementById('llmSelect').value);
+            const ttsRate = parseFloat(document.getElementById('ttsSelect').value);
+            const telRate = parseFloat(document.getElementById('telephonySelect').value);
 
-<!-- Modals -->
-<div class="modal" id="appModal">
-  <div class="modal-content" id="modalBody">
-    <!-- Dynamic Content Loaded via JS -->
-  </div>
-</div>
+            const sttTotal = totalMins * sttRate;
+            const llmTotal = totalMins * llmRate;
+            const ttsTotal = totalMins * ttsRate;
+            const telTotal = totalMins * telRate;
 
-<script>
-  let currentSymbol = '$';
-  let currentRate = 1;
+            const total = sttTotal + llmTotal + ttsTotal + telTotal;
+            const effectivePerMin = totalMins > 0 ? (total / totalMins) : 0;
 
-  function calculate() {
-    const currSelect = document.getElementById('currency');
-    currentSymbol = currSelect.options[currSelect.selectedIndex].getAttribute('data-symbol');
-    currentRate = parseFloat(currSelect.options[currSelect.selectedIndex].getAttribute('data-rate'));
+            document.getElementById('sttCost').innerText = '$' + sttTotal.toFixed(2);
+            document.getElementById('llmCost').innerText = '$' + llmTotal.toFixed(2);
+            document.getElementById('ttsCost').innerText = '$' + ttsTotal.toFixed(2);
+            document.getElementById('telephonyCost').innerText = '$' + telTotal.toFixed(2);
 
-    const minutes = parseFloat(document.getElementById('minutes').value);
-    const dids = parseInt(document.getElementById('didCount').value);
-    const setupFee = parseFloat(document.getElementById('setupFee').value) * currentRate;
-    const markupPercent = parseFloat(document.getElementById('markup').value);
+            document.getElementById('totalMonthly').innerText = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('totalMinutes').innerText = totalMins.toLocaleString() + ' Total Minutes / Month';
+            document.getElementById('effectiveRate').innerText = '$' + effectivePerMin.toFixed(3) + ' / min';
+            document.getElementById('annualCost').innerText = '$' + (total * 12).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' / yr';
 
-    const isOutbound = document.querySelector('input[name="direction"]:checked').value === 'outbound';
-    const telephonyRate = (isOutbound ? 0.014 : 0.0085) * currentRate;
+            currentCalculations = {
+                calls, duration, totalMins, sttTotal, llmTotal, ttsTotal, telTotal, total, effectivePerMin
+            };
+        }
 
-    const platformRate = parseFloat(document.getElementById('platformVendor').value) * currentRate;
-    const llmRate = parseFloat(document.getElementById('llmVendor').value) * currentRate;
-    const ttsRate = parseFloat(document.getElementById('ttsVendor').value) * currentRate;
-    const sttRate = 0.008 * currentRate;
+        function applyPreset(calls, duration) {
+            document.getElementById('callsPerDay').value = calls;
+            document.getElementById('avgDuration').value = duration;
+            calculate();
+        }
 
-    document.getElementById('minVal').innerText = minutes.toLocaleString();
-    document.getElementById('didVal').innerText = dids;
-    document.getElementById('setupFeeVal').innerText = currentSymbol + Math.round(setupFee).toLocaleString();
-    document.getElementById('markupVal').innerText = markupPercent + '%';
+        function copyReport() {
+            const text = --- AI Voice Cost Estimator Report ---\n +
+                         Monthly Volume:  minutes\n +
+                         Estimated Monthly Cost: Green{currentCalculations.total.toFixed(2)}\n +
+                           - STT Cost: Green{currentCalculations.sttTotal.toFixed(2)}\n +
+                           - LLM Cost: Green{currentCalculations.llmTotal.toFixed(2)}\n +
+                           - TTS Cost: Green{currentCalculations.ttsTotal.toFixed(2)}\n +
+                           - Telephony Cost: Green{currentCalculations.telTotal.toFixed(2)}\n +
+                         Effective Rate: Green{currentCalculations.effectivePerMin.toFixed(3)}/min\n +
+                         Annual Projection: Green{(currentCalculations.total * 12).toFixed(2)};
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Cost breakdown copied to clipboard!');
+            });
+        }
 
-    let tierDiscount = 0;
-    if (minutes >= 50000) { tierDiscount = 0.20; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 20% Off Platform"; }
-    else if (minutes >= 20000) { tierDiscount = 0.10; document.getElementById('tierDiscountLabel').innerText = "Volume Tier: 10% Off Platform"; }
-    else { document.getElementById('tierDiscountLabel').innerText = "Standard Tier"; }
+        function downloadReport() {
+            const content = === AI VOICE COST ESTIMATOR REPORT ===\n +
+                            Generated via AI Voice Calc\n\n +
+                            Usage Metrics:\n +
+                            - Calls / Day: \n +
+                            - Avg Duration:  mins\n +
+                            - Total Monthly Minutes: \n\n +
+                            Cost Breakdown (Monthly):\n +
+                            - Speech-To-Text: Green{currentCalculations.sttTotal.toFixed(2)}\n +
+                            - LLM Reasoning: Green{currentCalculations.llmTotal.toFixed(2)}\n +
+                            - Text-To-Speech: Green{currentCalculations.ttsTotal.toFixed(2)}\n +
+                            - Orchestration / Telephony: Green{currentCalculations.telTotal.toFixed(2)}\n\n +
+                            Summary:\n +
+                            - Total Monthly Expense: Green{currentCalculations.total.toFixed(2)}\n +
+                            - Effective Rate per Minute: Green{currentCalculations.effectivePerMin.toFixed(3)}\n +
+                            - Annualized Projection: Green{(currentCalculations.total * 12).toFixed(2)}\n;
 
-    const effPlatformRate = platformRate * (1 - tierDiscount);
-    const basePerMinCOGS = effPlatformRate + llmRate + ttsRate + sttRate + telephonyRate;
-    
-    const monthlyDidCost = dids * (1.15 * currentRate);
-    const totalCOGS = (basePerMinCOGS * minutes) + monthlyDidCost;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'voice-ai-cost-estimate.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
 
-    const profitMargin = totalCOGS * (markupPercent / 100);
-    const clientBilledMonthly = totalCOGS + profitMargin;
-    const firstMonthTotal = clientBilledMonthly + setupFee;
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', calculate);
+        });
 
-    const humanCost = (minutes / 50) * (18 * currentRate);
-    const netSavings = Math.max(0, humanCost - clientBilledMonthly);
-
-    document.getElementById('clientTotal').innerText = currentSymbol + Math.round(clientBilledMonthly).toLocaleString();
-    document.getElementById('firstMonthInvoice').innerText = `First Month Invoice (Inc. Setup): ${currentSymbol}${Math.round(firstMonthTotal).toLocaleString()}`;
-    document.getElementById('cogsCost').innerText = currentSymbol + Math.round(totalCOGS).toLocaleString();
-    document.getElementById('agencyProfit').innerText = currentSymbol + Math.round(profitMargin).toLocaleString();
-    document.getElementById('humanCost').innerText = currentSymbol + Math.round(humanCost).toLocaleString();
-    document.getElementById('netSavings').innerText = currentSymbol + Math.round(netSavings).toLocaleString();
-
-    const grandTotal = clientBilledMonthly || 1;
-    document.getElementById('segPlatform').style.width = (((effPlatformRate * minutes) / grandTotal) * 100) + '%';
-    document.getElementById('segLLM').style.width = (((llmRate * minutes) / grandTotal) * 100) + '%';
-    document.getElementById('segVoice').style.width = (((ttsRate * minutes) / grandTotal) * 100) + '%';
-    document.getElementById('segSTT').style.width = (((sttRate * minutes) / grandTotal) * 100) + '%';
-    document.getElementById('segTelephony').style.width = ((((telephonyRate * minutes) + monthlyDidCost) / grandTotal) * 100) + '%';
-    document.getElementById('segMarkup').style.width = ((profitMargin / grandTotal) * 100) + '%';
-
-    const platLat = parseInt(document.getElementById('platformVendor').selectedOptions[0].getAttribute('data-latency') || 150);
-    const llmLat = parseInt(document.getElementById('llmVendor').selectedOptions[0].getAttribute('data-latency') || 300);
-    const ttsLat = parseInt(document.getElementById('ttsVendor').selectedOptions[0].getAttribute('data-latency') || 200);
-    const totalLatency = platLat + llmLat + ttsLat + 100;
-
-    document.getElementById('latencyVal').innerText = totalLatency + ' ms';
-    const latBar = document.getElementById('latencyBar');
-    const latBadge = document.getElementById('latencyBadge');
-
-    const fillPct = Math.min(100, (totalLatency / 1500) * 100);
-    latBar.style.width = fillPct + '%';
-
-    if (totalLatency < 600) {
-      latBar.style.background = 'var(--success)';
-      latBadge.innerText = 'Ultra Fast (Human-like)';
-      latBadge.style.color = 'var(--success)';
-    } else if (totalLatency < 1000) {
-      latBar.style.background = '#3b82f6';
-      latBadge.innerText = 'Real-Time Acceptable';
-      latBadge.style.color = '#3b82f6';
-    } else {
-      latBar.style.background = 'var(--warning)';
-      latBadge.innerText = 'Noticeable Delay';
-      latBadge.style.color = 'var(--warning)';
-    }
-  }
-
-  function autoOptimizeStack() {
-    document.getElementById('platformVendor').value = "0.05";
-    document.getElementById('llmVendor').value = "0.01";
-    document.getElementById('ttsVendor').value = "0.01";
-    calculate();
-    alert('âš¡ Auto-Optimized! Selected highest-speed, lowest-cost stack (Groq + Deepgram Aura).');
-  }
-
-  function applyPreset(type) {
-    if(type === 'support') {
-      document.getElementById('minutes').value = 3000;
-      document.getElementById('didCount').value = 2;
-      document.getElementById('markup').value = 35;
-    } else if(type === 'sales') {
-      document.getElementById('minutes').value = 15000;
-      document.getElementById('didCount').value = 10;
-      document.getElementById('markup').value = 50;
-    } else if(type === 'enterprise') {
-      document.getElementById('minutes').value = 60000;
-      document.getElementById('didCount').value = 25;
-      document.getElementById('markup').value = 40;
-    }
-    calculate();
-  }
-
-  function openModal(type) {
-    const modal = document.getElementById('appModal');
-    const body = document.getElementById('modalBody');
-    
-    if(type === 'lead') {
-      body.innerHTML = `
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h3>Export Custom Client Proposal</h3>
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Enter details to download formatted invoice and stack report.</p>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <input type="text" id="clientName" placeholder="Client Name / Company" />
-          <input type="email" placeholder="Email Address" />
-          <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
-        </div>
-      `;
-    } else if(type === 'compare') {
-      body.innerHTML = `
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h3>âš–ï¸ Side-by-Side Stack Comparison</h3>
-        <p style="font-size:0.85rem; color:var(--text-muted);">Compare current premium selection with budget optimized stack.</p>
-        <table class="compare-table">
-          <thead>
-            <tr><th>Metric</th><th>Current Premium Stack</th><th>Budget Optimized Stack</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>LLM & Voice</td><td>GPT-4o + ElevenLabs</td><td>Groq Llama 3 + Deepgram Aura</td></tr>
-            <tr><td>Est. Latency</td><td>~900 ms</td><td><strong>~400 ms (Faster)</strong></td></tr>
-            <tr><td>Per Min COGS</td><td>~$0.128 / min</td><td><strong>~$0.035 / min</strong></td></tr>
-            <tr><td>Monthly Client Savings</td><td>Standard</td><td><strong>Save ~$450+ extra / mo</strong></td></tr>
-          </tbody>
-        </table>
-      `;
-    }
-    modal.classList.add('active');
-  }
-
-  function closeModal() { document.getElementById('appModal').classList.remove('active'); }
-
-  window.addEventListener('DOMContentLoaded', calculate);
-</script>
-
+        calculate();
+    </script>
 </body>
 </html>
-
-
-
-

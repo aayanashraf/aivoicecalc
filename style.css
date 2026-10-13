@@ -127,20 +127,27 @@ select {
 
 select:focus { border-color: var(--accent); }
 
-/* Results Styling */
+/* Results & Chart Styling */
 .total-card {
     background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
     color: #ffffff;
     border-radius: 16px;
     padding: 24px;
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: 0 10px 20px rgba(79, 70, 229, 0.25);
 }
 
 .total-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.9; }
 .total-amount { font-size: 38px; font-weight: 800; margin: 8px 0; }
 .total-sub { font-size: 13px; opacity: 0.85; }
+
+.chart-container {
+    position: relative;
+    height: 180px;
+    width: 100%;
+    margin-bottom: 20px;
+}
 
 .breakdown-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
 .breakdown-item { display: flex; justify-content: space-between; font-size: 14px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-color); }
@@ -152,11 +159,30 @@ select:focus { border-color: var(--accent); }
 .pill-box span { display: block; font-size: 12px; color: #4338ca; font-weight: 600; }
 .pill-box strong { font-size: 15px; color: #1e1b4b; font-weight: 800; }
 
-.action-buttons-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.action-buttons-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
 .action-btn { padding: 11px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: transform 0.2s; }
 .action-btn:hover { transform: translateY(-1px); }
 .secondary-btn { background: #f1f5f9; border: 1px solid var(--border-color); color: var(--text-main); }
 .primary-btn { background: var(--accent); color: #fff; }
+
+/* Affiliate Buttons */
+.affiliate-section { border-top: 1px solid var(--border-color); padding-top: 18px; }
+.affiliate-title { font-size: 12px; font-weight: 700; color: var(--text-sub); display: block; margin-bottom: 10px; }
+.affiliate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.affiliate-link {
+    display: block;
+    text-align: center;
+    padding: 8px;
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+.affiliate-link:hover { background: var(--accent-light); border-color: var(--accent); }
 
 /* Benchmarks Section */
 .competitors-section {

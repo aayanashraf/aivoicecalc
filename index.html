@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Voice Cost Calculator | Enterprise Infrastructure Estimator</title>
-    <meta name="description" content="Accurately estimate end-to-end voice AI agent expenses across STT, LLM, TTS, and Telephony orchestrators.">
+    <meta name="description" content="Accurately estimate end-to-end voice AI agent expenses with dynamic cost breakdown charts and affiliate partner integrations.">
     <link rel="icon" type="image/svg+xml" href="logo.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=60" />
+    <link rel="stylesheet" href="style.css?v=80" />
+    <!-- Chart.js CDN for Dynamic Pie Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -20,7 +22,7 @@
                 <span class="logo-text">AI Voice<span class="highlight">Calc</span></span>
             </a>
             <div class="nav-actions">
-                <span class="badge">v2.0 Enterprise</span>
+                <span class="badge">v2.0 Next-Gen</span>
             </div>
         </div>
     </header>
@@ -29,7 +31,7 @@
         <div class="hero-section">
             <span class="hero-pill">⚡ Real-Time Voice Agent Cost Engine</span>
             <h1>Comprehensive Voice AI <br><span class="gradient-text">Cost Calculator</span></h1>
-            <p>Model end-to-end operational expenses across Speech-to-Text, LLM Reasoning, Text-to-Speech, and Telephony orchestrators.</p>
+            <p>Model end-to-end operational expenses with real-time visual breakdown charts and official partner rates.</p>
         </div>
 
         <!-- Quick Volume Presets -->
@@ -37,12 +39,12 @@
             <span class="preset-label">Quick Presets:</span>
             <button class="preset-btn" onclick="applyPreset(100, 2)">Light (100 calls/day)</button>
             <button class="preset-btn" onclick="applyPreset(500, 3.5)">Growth (500 calls/day)</button>
-            <button class="preset-btn" onclick="applyPreset(2500, 5)">Scale (2,500 calls/day)</button>
+            <button class="preset-btn" onclick="applyPreset(2500, 5)">Scale (2.5k calls/day)</button>
             <button class="preset-btn" onclick="applyPreset(10000, 5)">Enterprise (10k calls/day)</button>
         </div>
 
         <div class="calculator-grid">
-            <!-- Left Panel: Controls -->
+            <!-- Left Panel: Usage & Stack Controls -->
             <div class="calc-panel">
                 <h2 class="panel-title">1. Usage Parameters</h2>
                 
@@ -67,43 +69,43 @@
                 <div class="input-field">
                     <label>Speech-To-Text (STT)</label>
                     <select id="sttSelect">
-                        <option value="0.0043">Deepgram Nova-2 (.0043/min)</option>
-                        <option value="0.0060">Whisper Large v3 (.0060/min)</option>
-                        <option value="0.0045">AssemblyAI Conformer-2 (.0045/min)</option>
+                        <option value="0.0043" data-name="Deepgram Nova-2">Deepgram Nova-2 (.0043/min)</option>
+                        <option value="0.0060" data-name="Whisper Large v3">Whisper Large v3 (.0060/min)</option>
+                        <option value="0.0045" data-name="AssemblyAI">AssemblyAI Conformer-2 (.0045/min)</option>
                     </select>
                 </div>
 
                 <div class="input-field">
                     <label>Intelligence / LLM Engine</label>
                     <select id="llmSelect">
-                        <option value="0.015">GPT-4o mini (~.015/min)</option>
-                        <option value="0.060">GPT-4o Realtime API (~.060/min)</option>
-                        <option value="0.020">Claude 3.5 Haiku (~.020/min)</option>
+                        <option value="0.015" data-name="GPT-4o mini">GPT-4o mini (~.015/min)</option>
+                        <option value="0.060" data-name="GPT-4o Realtime">GPT-4o Realtime API (~.060/min)</option>
+                        <option value="0.020" data-name="Claude 3.5 Haiku">Claude 3.5 Haiku (~.020/min)</option>
                     </select>
                 </div>
 
                 <div class="input-field">
                     <label>Text-To-Speech (TTS)</label>
                     <select id="ttsSelect">
-                        <option value="0.030">ElevenLabs Turbo v2.5 (.030/min)</option>
-                        <option value="0.015">Cartesia Sonic (.015/min)</option>
-                        <option value="0.020">PlayHT 2.0 (.020/min)</option>
+                        <option value="0.030" data-name="ElevenLabs Turbo">ElevenLabs Turbo v2.5 (.030/min)</option>
+                        <option value="0.015" data-name="Cartesia Sonic">Cartesia Sonic (.015/min)</option>
+                        <option value="0.020" data-name="PlayHT 2.0">PlayHT 2.0 (.020/min)</option>
                     </select>
                 </div>
 
                 <div class="input-field">
                     <label>Orchestration & Telephony</label>
                     <select id="telephonySelect">
-                        <option value="0.050">Vapi Orchestration + Twilio SIP (.050/min)</option>
-                        <option value="0.080">Retell AI All-In-One (.080/min)</option>
-                        <option value="0.014">Twilio Direct SIP Only (.014/min)</option>
+                        <option value="0.050" data-name="Vapi + Twilio">Vapi Orchestration + Twilio SIP (.050/min)</option>
+                        <option value="0.080" data-name="Retell AI">Retell AI All-In-One (.080/min)</option>
+                        <option value="0.014" data-name="Twilio Direct">Twilio Direct SIP Only (.014/min)</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Right Panel: Results & Cost Breakdown -->
+            <!-- Right Panel: Results, Pie Chart & Referrals -->
             <div class="results-panel">
-                <h2 class="panel-title">Monthly Cost Estimate</h2>
+                <h2 class="panel-title">Monthly Cost Breakdown</h2>
                 
                 <div class="total-card">
                     <span class="total-label">Estimated Monthly Expense</span>
@@ -111,7 +113,12 @@
                     <span class="total-sub" id="totalMinutes">0 Total Minutes Included</span>
                 </div>
 
-                <div class="breakdown-list">
+                <!-- Interactive Pie Chart Canvas -->
+                <div class="chart-container">
+                    <canvas id="costPieChart"></canvas>
+                </div>
+
+                <div class="breakdown-list" style="margin-top: 16px;">
                     <div class="breakdown-item">
                         <span>Speech-To-Text (STT)</span>
                         <strong id="sttCost">.00</strong>
@@ -142,15 +149,26 @@
                 </div>
 
                 <div class="action-buttons-group">
-                    <button class="action-btn secondary-btn" onclick="copyReport()">📋 Copy Breakdown</button>
-                    <button class="action-btn primary-btn" onclick="downloadReport()">📥 Export Report</button>
+                    <button class="action-btn secondary-btn" onclick="copyReport()">📋 Copy Report</button>
+                    <button class="action-btn primary-btn" onclick="downloadReport()">📥 Export TXT</button>
+                </div>
+
+                <!-- Provider Affiliate / Partner Links -->
+                <div class="affiliate-section">
+                    <span class="affiliate-title">Official Provider Discounts & Integrations:</span>
+                    <div class="affiliate-grid">
+                        <a href="https://elevenlabs.io/" target="_blank" class="affiliate-link">Activate ElevenLabs ↗</a>
+                        <a href="https://deepgram.com/" target="_blank" class="affiliate-link">Deepgram Offer ↗</a>
+                        <a href="https://vapi.ai/" target="_blank" class="affiliate-link">Explore Vapi AI ↗</a>
+                        <a href="https://www.twilio.com/" target="_blank" class="affiliate-link">Twilio SIP Setup ↗</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <section class="competitors-section">
             <h3>Industry Benchmarks</h3>
-            <p>Cross-reference our calculations with existing benchmark calculators across the web:</p>
+            <p>Cross-reference calculations with established tools across the web:</p>
             <div class="benchmarks-grid">
                 <a href="https://www.raftlabs.com/tools/voice-ai-calculator" target="_blank" class="benchmark-link">
                     <span>RaftLabs Voice Calculator</span>
@@ -173,11 +191,35 @@
     </main>
 
     <footer>
-        <p>© 2026 AI Voice Cost Calculator. Designed for Modern Developers & Enterprise Teams.</p>
+        <p>© 2026 AI Voice Cost Calculator. Built for Enterprise Developers & Voice AI Teams.</p>
     </footer>
 
     <script>
+        let pieChart = null;
         let currentCalculations = {};
+
+        function initChart() {
+            const ctx = document.getElementById('costPieChart').getContext('2d');
+            pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['STT', 'LLM', 'TTS', 'Telephony'],
+                    datasets: [{
+                        data: [1, 1, 1, 1],
+                        backgroundColor: ['#38bdf8', '#818cf8', '#6366f1', '#f43f5e'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' } } }
+                    }
+                }
+            });
+        }
 
         function calculate() {
             const calls = parseFloat(document.getElementById('callsPerDay').value);
@@ -211,6 +253,12 @@
             document.getElementById('effectiveRate').innerText = '$' + effectivePerMin.toFixed(3) + ' / min';
             document.getElementById('annualCost').innerText = '$' + (total * 12).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' / yr';
 
+            // Update Pie Chart Data Dynamically
+            if (pieChart) {
+                pieChart.data.datasets[0].data = [sttTotal, llmTotal, ttsTotal, telTotal];
+                pieChart.update();
+            }
+
             currentCalculations = {
                 calls, duration, totalMins, sttTotal, llmTotal, ttsTotal, telTotal, total, effectivePerMin
             };
@@ -225,35 +273,34 @@
         function copyReport() {
             const text = --- AI Voice Cost Estimator Report ---\n +
                          Monthly Volume:  minutes\n +
-                         Estimated Monthly Cost: Green{currentCalculations.total.toFixed(2)}\n +
-                           - STT Cost: Green{currentCalculations.sttTotal.toFixed(2)}\n +
-                           - LLM Cost: Green{currentCalculations.llmTotal.toFixed(2)}\n +
-                           - TTS Cost: Green{currentCalculations.ttsTotal.toFixed(2)}\n +
-                           - Telephony Cost: Green{currentCalculations.telTotal.toFixed(2)}\n +
-                         Effective Rate: Green{currentCalculations.effectivePerMin.toFixed(3)}/min\n +
-                         Annual Projection: Green{(currentCalculations.total * 12).toFixed(2)};
+                         Estimated Monthly Cost: }{currentCalculations.total.toFixed(2)}\n +
+                           - STT Cost: }{currentCalculations.sttTotal.toFixed(2)}\n +
+                           - LLM Cost: }{currentCalculations.llmTotal.toFixed(2)}\n +
+                           - TTS Cost: }{currentCalculations.ttsTotal.toFixed(2)}\n +
+                           - Telephony Cost: }{currentCalculations.telTotal.toFixed(2)}\n +
+                         Effective Rate: }{currentCalculations.effectivePerMin.toFixed(3)}/min\n +
+                         Annual Projection: }{(currentCalculations.total * 12).toFixed(2)};
             
             navigator.clipboard.writeText(text).then(() => {
-                alert('Cost breakdown copied to clipboard!');
+                alert('Cost breakdown report copied to clipboard!');
             });
         }
 
         function downloadReport() {
-            const content = === AI VOICE COST ESTIMATOR REPORT ===\n +
-                            Generated via AI Voice Calc\n\n +
+            const content = === AI VOICE COST ESTIMATOR REPORT ===\n\n +
                             Usage Metrics:\n +
                             - Calls / Day: \n +
                             - Avg Duration:  mins\n +
                             - Total Monthly Minutes: \n\n +
                             Cost Breakdown (Monthly):\n +
-                            - Speech-To-Text: Green{currentCalculations.sttTotal.toFixed(2)}\n +
-                            - LLM Reasoning: Green{currentCalculations.llmTotal.toFixed(2)}\n +
-                            - Text-To-Speech: Green{currentCalculations.ttsTotal.toFixed(2)}\n +
-                            - Orchestration / Telephony: Green{currentCalculations.telTotal.toFixed(2)}\n\n +
+                            - Speech-To-Text: }{currentCalculations.sttTotal.toFixed(2)}\n +
+                            - LLM Reasoning: }{currentCalculations.llmTotal.toFixed(2)}\n +
+                            - Text-To-Speech: }{currentCalculations.ttsTotal.toFixed(2)}\n +
+                            - Orchestration / Telephony: }{currentCalculations.telTotal.toFixed(2)}\n\n +
                             Summary:\n +
-                            - Total Monthly Expense: Green{currentCalculations.total.toFixed(2)}\n +
-                            - Effective Rate per Minute: Green{currentCalculations.effectivePerMin.toFixed(3)}\n +
-                            - Annualized Projection: Green{(currentCalculations.total * 12).toFixed(2)}\n;
+                            - Total Monthly Expense: }{currentCalculations.total.toFixed(2)}\n +
+                            - Effective Rate per Minute: }{currentCalculations.effectivePerMin.toFixed(3)}\n +
+                            - Annualized Projection: }{(currentCalculations.total * 12).toFixed(2)}\n;
 
             const blob = new Blob([content], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
@@ -266,11 +313,13 @@
             URL.revokeObjectURL(url);
         }
 
-        document.querySelectorAll('input, select').forEach(el => {
-            el.addEventListener('input', calculate);
+        window.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            document.querySelectorAll('input, select').forEach(el => {
+                el.addEventListener('input', calculate);
+            });
+            calculate();
         });
-
-        calculate();
     </script>
 </body>
 </html>

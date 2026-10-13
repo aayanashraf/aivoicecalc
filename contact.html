@@ -1,11 +1,49 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contact | aivoicecalc</title><meta name="description" content="Contact aivoicecalc with corrections, questions or partnership requests.">
-<link rel="canonical" href="https://YOUR-DOMAIN.com/contact.html"><link rel="stylesheet" href="/style.css"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#0B7A75"><link rel="apple-touch-icon" href="/icon-192.png">
-<meta property="og:title" content="Contact | aivoicecalc"><meta property="og:type" content="article"><meta property="og:url" content="https://YOUR-DOMAIN.com/contact.html">
-</head><body><div class="wrap"><header><a class="logo" href="/"><b>AV</b> aivoicecalc</a></header>
-<main><h1>Contact us</h1>
-<p>For price corrections, questions or partnerships, email <a href="mailto:YOUR-EMAIL@example.com">YOUR-EMAIL@example.com</a>.</p>
-<p>We read every message and aim to reply within a few business days.</p></main>
-<footer><p><a href="/">Calculator</a> · <a href="/vapi-vs-retell.html">Vapi vs Retell</a> · <a href="/ai-voice-agent-cost-per-minute.html">Cost per minute</a> · <a href="/about.html">About</a> · <a href="/contact.html">Contact</a> · <a href="/disclaimer.html">Disclaimer</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p><p>We are not affiliated with Vapi, Retell AI, Bland AI or Synthflow. Some links may be affiliate links.</p></footer></div>
-<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script></body></html>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | AI Voice Cost Calculator</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=130" />
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo-flex">
+                <img src="logo.svg" width="32" height="32" alt="Logo"/>
+                <span class="logo-text">AI Voice<span class="highlight">Calc</span></span>
+            </a>
+            <div class="nav-actions">
+                <a href="/" class="preset-btn">← Back to Calculator</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <div class="calc-panel" style="max-width: 800px; margin: 40px auto;">
+            <h1 style="font-size: 28px; margin-bottom: 16px;">Contact Us</h1>
+            <p style="color: var(--text-sub); line-height: 1.6; margin-bottom: 24px;">
+                Have questions, updated provider rates, feature requests, or partnership inquiries? Reach out to us below.
+            </p>
+            
+            <div class="input-field">
+                <label>Your Email</label>
+                <input type="email" placeholder="name@company.com" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px;">
+            </div>
+            
+            <div class="input-field">
+                <label>Message / Rate Update Suggestion</label>
+                <textarea rows="5" placeholder="How can we improve AI Voice Calc?" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; font-family: inherit;"></textarea>
+            </div>
+
+            <button class="action-btn primary-btn" onclick="alert('Thank you for reaching out! We will get back to you shortly.')" style="width: 100%; padding: 14px;">Send Message</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 AI Voice Cost Calculator. Built for Developers & Enterprise Teams.</p>
+    </footer>
+</body>
+</html>

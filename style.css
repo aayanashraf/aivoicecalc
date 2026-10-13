@@ -55,7 +55,7 @@ body {
 .hero-pill { background: #ffffff; border: 1px solid var(--border-color); color: var(--text-sub); padding: 6px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; display: inline-block; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
 h1 { font-size: 42px; font-weight: 800; line-height: 1.2; color: #0f172a; margin-bottom: 12px; }
 .gradient-text { background: linear-gradient(135deg, #4338ca 0%, #2563eb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero-section p { color: var(--text-sub); font-size: 16px; max-width: 650px; margin: 0 auto; }
+.hero-section p { color: var(--text-sub); font-size: 16px; max-width: 680px; margin: 0 auto; }
 
 /* Presets Bar */
 .presets-bar {
@@ -107,12 +107,8 @@ h1 { font-size: 42px; font-weight: 800; line-height: 1.2; color: #0f172a; margin
 .input-field label { font-size: 13px; font-weight: 700; color: #334155; }
 .field-val { font-size: 13px; font-weight: 700; color: var(--accent); }
 
-input[type="range"] {
-    width: 100%;
-    accent-color: var(--accent);
-}
-
-select {
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+input[type="number"], select {
     width: 100%;
     padding: 12px;
     background: #f8fafc;
@@ -125,9 +121,9 @@ select {
     transition: border 0.2s;
 }
 
-select:focus { border-color: var(--accent); }
+input[type="number"]:focus, select:focus { border-color: var(--accent); }
 
-/* Results & Chart Styling */
+/* Total Card & Chart */
 .total-card {
     background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
     color: #ffffff;
@@ -140,7 +136,7 @@ select:focus { border-color: var(--accent); }
 
 .total-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.9; }
 .total-amount { font-size: 38px; font-weight: 800; margin: 8px 0; }
-.total-sub { font-size: 13px; opacity: 0.85; }
+.setup-pill-text { font-size: 12px; font-weight: 600; opacity: 0.9; background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 20px; display: inline-block; }
 
 .chart-container {
     position: relative;
@@ -154,10 +150,10 @@ select:focus { border-color: var(--accent); }
 .breakdown-item span { color: var(--text-sub); font-weight: 500; }
 .breakdown-item strong { color: var(--text-main); font-weight: 700; }
 
-.summary-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-.pill-box { background: var(--accent-light); padding: 14px; border-radius: 12px; text-align: center; }
-.pill-box span { display: block; font-size: 12px; color: #4338ca; font-weight: 600; }
-.pill-box strong { font-size: 15px; color: #1e1b4b; font-weight: 800; }
+.summary-pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.pill-box { background: var(--accent-light); padding: 12px 8px; border-radius: 12px; text-align: center; }
+.pill-box span { display: block; font-size: 11px; color: #4338ca; font-weight: 600; }
+.pill-box strong { font-size: 14px; color: #1e1b4b; font-weight: 800; }
 
 .action-buttons-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
 .action-btn { padding: 11px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: transform 0.2s; }
@@ -165,7 +161,7 @@ select:focus { border-color: var(--accent); }
 .secondary-btn { background: #f1f5f9; border: 1px solid var(--border-color); color: var(--text-main); }
 .primary-btn { background: var(--accent); color: #fff; }
 
-/* Affiliate Buttons */
+/* Affiliate Section */
 .affiliate-section { border-top: 1px solid var(--border-color); padding-top: 18px; }
 .affiliate-title { font-size: 12px; font-weight: 700; color: var(--text-sub); display: block; margin-bottom: 10px; }
 .affiliate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -223,5 +219,6 @@ footer { margin-top: auto; padding: 30px; color: var(--text-sub); font-size: 13p
 
 @media (max-width: 850px) {
     .calculator-grid { grid-template-columns: 1fr; }
+    .summary-pills { grid-template-columns: 1fr; }
     h1 { font-size: 32px; }
 }
